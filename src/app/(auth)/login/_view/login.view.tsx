@@ -1,5 +1,4 @@
 import { LoginForm } from '@/features/auth/login/login.form'
-import React from 'react'
 
 const LoginView = () => {
   return (
