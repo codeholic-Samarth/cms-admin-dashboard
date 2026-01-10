@@ -192,10 +192,16 @@ This is where real CMS logic lives.
 
 src/features/
 ├── auth/
-│   ├── auth.api.ts
-│   ├── auth.schema.ts
-│   ├── auth.hooks.ts
-│   └── auth.types.ts
+|      ├──login/  
+│      ├     ├── login.api.ts
+│      ├     ├── login.schema.ts
+│      ├     ├── login.hooks.ts
+│      ├     └── login.types.ts
+│      ├──register/
+│            ├── register.api.ts
+│            ├── register.schema.ts
+│            ├── register.hooks.ts
+│            └── register.types.ts
 │
 ├── users/
 │   ├── users.api.ts
