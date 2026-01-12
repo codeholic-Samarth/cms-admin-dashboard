@@ -35,71 +35,17 @@ src/
 │   └── not-found.tsx
 │
 ├── features/              # 🔥 business logic
-│   ├── inventory/
-│   │   ├── activity/
-│   │   │   ├── activity.api.ts
-│   │   │   ├── activity.schema.ts
-│   │   │   ├── activity.hooks.ts
-│   │   │   └── activity.types.ts
-│   │   └── products/
-│   │
-│   ├── orders/
-│   └── auth/
-│
-├── components/             # reusable UI
-│   ├── ui/
-│   ├── layout/
-│   └── common/
-│
-├── services/               # axios / fetch
-├── hooks/                  # shared hooks
-├── lib/                    # utils
-├── store/                  # zustand
-├── constants/
-├── types/
-└── assets/
-src/
-├── app/
-│   ├── (auth)/
-│   ├── (root)/
-│   ├── dashboard/
-│   │   ├── layout.tsx
-│   │   ├── page.tsx
-│   │
-│   │   ├── inventory/
-│   │   │   ├── activity/
-│   │   │   │   ├── page.tsx        # route entry (thin)
-│   │   │   │   ├── layout.tsx
-│   │   │   │   │
-│   │   │   │   ├── _view/           # page composition
-│   │   │   │   │   └── activity.view.tsx
-│   │   │   │   │
-│   │   │   │   └── _widgets/        # route-specific UI
-│   │   │   │       ├── activity-table.tsx
-│   │   │   │       ├── activity-columns.tsx
-│   │   │   │       └── activity-filters.tsx
-│   │   │   │
-│   │   │   ├── batch/
-│   │   │   ├── products/
-│   │   │   └── stock/
-│   │   │
-│   │   ├── orders/
-│   │   ├── payments/
-│   │   ├── settings/
-│   │   └── teams/
-│   │
-│   ├── error.tsx
-│   ├── loading.tsx
-│   └── not-found.tsx
-│
-├── features/              # 🔥 business logic
-│   ├── inventory/
-│   │   ├── activity/
-│   │   │   ├── activity.api.ts
-│   │   │   ├── activity.schema.ts
-│   │   │   ├── activity.hooks.ts
-│   │   │   └── activity.types.ts
-│   │   └── products/
+│   ├── auth/
+|      ├──login/  
+│      ├     ├── login.api.ts
+│      ├     ├── login.schema.ts
+│      ├     ├── login.hooks.ts
+│      ├     └── login.types.ts
+│      ├──register/
+│            ├── register.api.ts
+│            ├── register.schema.ts
+│            ├── register.hooks.ts
+│            └── register.types.ts
 │   │
 │   ├── orders/
 │   └── auth/

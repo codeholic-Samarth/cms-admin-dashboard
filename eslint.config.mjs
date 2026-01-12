@@ -5,11 +5,13 @@ import importPlugin from "eslint-plugin-import";
 import unusedImports from "eslint-plugin-unused-imports";
 
 export default defineConfig([
-  // Next.js defaults (keep these)
+  // Next.js defaults
   ...nextVitals,
   ...nextTs,
 
-  // Project-wide rules
+  /* =========================================================
+   * Project-wide rules
+   * ======================================================= */
   {
     plugins: {
       "unused-imports": unusedImports,
@@ -17,6 +19,11 @@ export default defineConfig([
     },
 
     rules: {
+      /* ----------------------------
+       * TypeScript flexibility
+       * ---------------------------- */
+      "@typescript-eslint/no-explicit-any": "off",
+
       /* ----------------------------
        * Code quality
        * ---------------------------- */
@@ -71,7 +78,7 @@ export default defineConfig([
       "@next/next/no-html-link-for-pages": "off",
 
       /* ----------------------------
-       * Architecture safety (optional but recommended)
+       * Architecture safety
        * ---------------------------- */
       "no-restricted-imports": [
         "error",
@@ -82,7 +89,7 @@ export default defineConfig([
     },
   },
 
-  // ✅ Ignore build artifacts
+  // Ignore build artifacts
   globalIgnores([
     ".next/**",
     "out/**",

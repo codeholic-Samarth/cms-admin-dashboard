@@ -1,19 +1,25 @@
-"use client"
+'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { GalleryVerticalEnd } from 'lucide-react'
+import { Eye, EyeOff, GalleryVerticalEnd } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 
 import { Button } from '@/components/ui/button'
 import { Field, FieldDescription, FieldGroup, FieldLabel } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
+import { parseAPIError } from '@/lib/parseApiError'
 import { cn } from '@/lib/utils'
 
 import { useLogin } from './login.hook'
 import { loginFormSchema, LoginFormValues } from './login.schema'
 
 export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) {
-  const { mutate: login, isPending, isError, error } = useLogin()
+  const { mutate: login, isPending } = useLogin()
+  const router = useRouter()
+  const [showPassword, setShowPassword] = useState(false);
 
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginFormSchema),
@@ -24,7 +30,16 @@ export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) 
   })
 
   const onSubmit = (data: LoginFormValues) => {
-    login(data)
+    login(data, {
+      onSuccess: () => {
+        toast.success('Logged in successfully!')
+        router.replace('/dashboard')
+      },
+      onError: (err) => {
+        const msg = parseAPIError(err)
+        toast.error(msg)
+      },
+    })
   }
 
   return (
@@ -65,17 +80,31 @@ export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) 
                 Forgot your password?
               </a>
             </div>
-            <Input
-              id="password"
-              type="password"
-              disabled={isPending}
-              {...form.register('password')}
-            />
-            {form.formState.errors.password && (
-              <FieldDescription className="text-destructive">
-                {form.formState.errors.password.message}
-              </FieldDescription>
-            )}
+            <div className="relative">
+              <Input
+                id="password"
+                type={showPassword ? "text" : "password"}
+                placeholder='*************'
+                disabled={isPending}
+                {...form.register('password')}
+              />
+              {form.formState.errors.password && (
+                <FieldDescription className="text-destructive">
+                  {form.formState.errors.password.message}
+                </FieldDescription>
+              )}
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute inset-y-0 right-0 pr-3 flex items-center text-muted-foreground hover:text-foreground transition-colors"
+              >
+                {showPassword ? (
+                  <EyeOff className="h-4 w-4" />
+                ) : (
+                  <Eye className="h-4 w-4" />
+                )}
+              </button>
+            </div>
           </Field>
 
           <Field>
@@ -83,13 +112,6 @@ export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) 
               {isPending ? 'Logging in...' : 'Login'}
             </Button>
           </Field>
-
-          {/* API Error */}
-          {isError && (
-            <FieldDescription className="text-center text-destructive">
-              {error?.message || 'Login failed. Please try again.'}
-            </FieldDescription>
-          )}
 
           <FieldDescription className="px-6 text-center">
             By clicking continue, you agree to our <a href="#">Terms of Service</a> and{' '}
