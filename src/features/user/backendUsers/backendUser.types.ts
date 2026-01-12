@@ -1,0 +1,28 @@
+export interface BackendUserRole {
+  ruid: string;
+  title: string;
+}
+
+export type BackendUser = {
+  uuid: string
+  username: string
+  email: string
+  role: BackendUserRole
+  email_verified_at: string | null
+  is_active: boolean
+  is_deleted: boolean
+  created_at: string
+  updated_at: string
+}
+
+export interface BackendUserListResponse {
+  users: BackendUser[];
+  total: number;
+}
+
+export interface UseBackendUsersParams {
+  page?: number;
+  limit?: number;
+  offset?: number;
+  search?: string;
+}

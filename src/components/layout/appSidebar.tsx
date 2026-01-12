@@ -5,7 +5,7 @@ import {
   BookOpen,
   Bot,
   Command,
-  Frame,
+  UserCog,
   GalleryVerticalEnd,
   Map,
   PieChart,
@@ -23,7 +23,6 @@ import {
   SidebarRail,
 } from '@/components/ui/sidebar'
 
-import { NavMain } from './navMain'
 import { NavProjects } from './navProject'
 import { NavUser } from './navUsers'
 
@@ -140,9 +139,9 @@ const data = {
   ],
   projects: [
     {
-      name: 'Design Engineering',
-      url: '#',
-      icon: Frame,
+      name: 'Backend Users',
+      url: '/dashboard/backend-user',
+      icon: UserCog,
     },
     {
       name: 'Sales & Marketing',
@@ -172,7 +171,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </div>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
+        {/* <NavMain items={data.navMain} /> */}
         <NavProjects projects={data.projects} />
       </SidebarContent>
       <SidebarFooter>

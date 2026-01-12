@@ -40,7 +40,7 @@ export const API_ENDPOINTS = {
     CHANGE_PASSWORD: "/backend-user/change-password",
   },
   BACKEND_USER: {
-    // GET_ALL: "/backend-user/get-all",
+    GET_ALL: "/backend-user/get-all",
     // REGISTER: "/backend-user/register",
     // GET_BY_ID: (userId: string | number) =>
     //   `/backend-user/get/${userId}`,

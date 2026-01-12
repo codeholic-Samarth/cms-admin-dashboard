@@ -1,6 +1,7 @@
-import { Button } from '@/components/ui/button'
+
 import { Separator } from '@/components/ui/separator'
 import { SidebarTrigger } from '@/components/ui/sidebar'
+import { ModeToggle } from '@/components/widget/themeToggle'
 
 import { DashboardBreadcrumbs } from './dashboardBreadcrumbs'
 
@@ -17,10 +18,10 @@ export function DashboardHeader() {
       <DashboardBreadcrumbs />
 
       <div className="ml-auto flex items-center gap-2">
-        <Button size="sm" variant="outline">
-          Export
-        </Button>
-        <Button size="sm">New</Button>
+        <ModeToggle />
+        {/* <Button size="sm" variant="ghost" mode={"icon"} className='rounded-full transition-colors'>
+          <Bell />
+        </Button> */}
       </div>
     </header>
   )

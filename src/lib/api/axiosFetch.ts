@@ -28,7 +28,8 @@ declare module "axios" {
 
 // Main API client (used everywhere)
 export const axiosFetch: AxiosInstance = axios.create({
-  baseURL: BASE_URL,
+  // baseURL: BASE_URL,
+  baseURL: "http://127.0.0.1:8000/",
   withCredentials: true,
 })
 
