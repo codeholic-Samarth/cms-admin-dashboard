@@ -26,3 +26,11 @@ export interface UseBackendUsersParams {
   offset?: number;
   search?: string;
 }
+
+export interface BackendUserCreatePayload {
+  username: string;
+  email: string;
+  password: string;
+  role_id?: string;
+}
+
