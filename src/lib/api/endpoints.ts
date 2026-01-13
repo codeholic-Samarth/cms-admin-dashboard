@@ -31,7 +31,6 @@ export const getImageUrl = (imagePath?: string): string => {
 export const API_ENDPOINTS = {
   AUTH: {
     LOGIN: "/backend-user/login",
-    REFRESH: "/backend-user/refresh",
     LOGOUT: "/backend-user/logout-all",
     FORGOT_PASSWORD_TOKEN: "/backend-user/send-token",
     CREATE_PASSWORD: "/backend-user/create-password",
@@ -41,6 +40,7 @@ export const API_ENDPOINTS = {
   },
   BACKEND_USER: {
     GET_ALL: "/backend-user/get-all",
+    ADD_USER: "/backend-user/register"
     // REGISTER: "/backend-user/register",
     // GET_BY_ID: (userId: string | number) =>
     //   `/backend-user/get/${userId}`,
@@ -51,4 +51,7 @@ export const API_ENDPOINTS = {
     //   GET_ALL: "/backend-user/roles",
     // },
   },
+  ROLES_AND_PERMISSION: {
+    GET_ALL_ROLES: "/backend-user/roles"
+  }
 } as const;

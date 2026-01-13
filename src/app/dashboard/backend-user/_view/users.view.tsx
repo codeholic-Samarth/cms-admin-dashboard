@@ -1,12 +1,11 @@
 "use client"
 
-import { Plus } from "lucide-react"
-
-import { Button } from "@/components/ui/button"
 import { useBackendUsers } from "@/features/user/backendUsers/backendUser.hook"
 
 // eslint-disable-next-line no-restricted-imports
 import UserTable from "../_widget/user-table"
+
+import AddUser from "./addUser.view"
 
 const UsersView = () => {
   const { data } = useBackendUsers({
@@ -27,10 +26,7 @@ const UsersView = () => {
           </p>
         </div>
 
-        <Button variant={"secondary"}>
-          <Plus className="stroke-background" strokeWidth={2} />
-          Add User
-        </Button>
+        <AddUser />
       </div>
 
       {/* ===== Table Card ===== */}
