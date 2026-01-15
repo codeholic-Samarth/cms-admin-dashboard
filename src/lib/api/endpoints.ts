@@ -37,12 +37,13 @@ export const API_ENDPOINTS = {
     PROFILE: "/backend-user/profile",
     UPDATE_PROFILE: "/backend-user/update-profile",
     CHANGE_PASSWORD: "/backend-user/change-password",
+    REFRESH: "/backend-user/refresh"
   },
   BACKEND_USER: {
     GET_ALL: "/backend-user/get-all",
     ADD_USER: "/backend-user/register",
     DETAIL: (user_id: string) => `/backend-user/get/${user_id}`,
-    UPDATE_USER: "/backend-user/update-user"
+    UPDATE_USER: "/backend-user/update-user",
     // REGISTER: "/backend-user/register",
     // GET_BY_ID: (userId: string | number) =>
     //   `/backend-user/get/${userId}`,

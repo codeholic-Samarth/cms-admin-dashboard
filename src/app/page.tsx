@@ -1,9 +1,15 @@
+"use client"
+
+import { redirect } from "next/navigation"
+
+import { useAuthStore } from "@/store/useAuthStore"
+
 export default function HomePage() {
-  return (
-    <main className="p-6">
-      <h1 className="text-2xl font-bold">
-        CMS Admin Dashboard
-      </h1>
-    </main>
-  );
+  const isAuthenticated = useAuthStore((s) => s.isAuthenticated)
+
+  if (isAuthenticated) {
+    redirect("/dashboard")
+  }
+
+  redirect("/login")
 }

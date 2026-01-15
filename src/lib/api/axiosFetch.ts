@@ -30,13 +30,11 @@ declare module "axios" {
 export const axiosFetch: AxiosInstance = axios.create({
   // baseURL: BASE_URL,
   baseURL: "http://127.0.0.1:8000/",
-  withCredentials: true,
 })
 
 // Raw client (used ONLY for refresh, no interceptors)
 const refreshClient = axios.create({
   baseURL: BASE_URL,
-  withCredentials: true,
 })
 
 /* ========================================================
@@ -74,12 +72,6 @@ const forceLogout = () => {
   clearAuthData()
 
   if (typeof window !== "undefined") {
-    localStorage.clear()
-    sessionStorage.clear()
-    document.cookie.split(";").forEach((c) => {
-      document.cookie =
-        c.replace(/^ +/, "").replace(/=.*/, "=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/")
-    })
     window.location.href = "/login"
   }
 }
@@ -89,31 +81,39 @@ const forceLogout = () => {
  * ======================================================= */
 
 const refreshAccessToken = async (): Promise<string> => {
-  const { refreshToken, setAuthData } = useAuthStore.getState()
+  const {
+    refreshToken,
+    setAccessToken,
+    clearAuthData,
+  } = useAuthStore.getState()
 
   if (!refreshToken) {
     throw new Error("No refresh token available")
   }
 
-  const res = await refreshClient.post(
-    API_ENDPOINTS.AUTH.REFRESH,
-    { refresh_token: refreshToken }
-  )
+  try {
+    const res = await refreshClient.post(
+      API_ENDPOINTS.AUTH.REFRESH,
+      { refresh_token: refreshToken }
+    )
 
-  const {
-    access_token,
-    refresh_token,
-    user,
-  } = res.data
+    const { access_token, refresh_token } = res.data
 
-  setAuthData({
-    access_token,
-    refresh_token,
-    user,
-  })
+    // update ONLY access token
+    setAccessToken(access_token)
 
-  return access_token
+    // OPTIONAL: backend rotated refresh token
+    if (refresh_token) {
+      useAuthStore.setState({ refreshToken: refresh_token })
+    }
+
+    return access_token
+  } catch (err) {
+    clearAuthData()
+    throw err
+  }
 }
+
 
 /* ========================================================
  * REQUEST INTERCEPTOR
