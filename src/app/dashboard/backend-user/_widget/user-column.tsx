@@ -8,6 +8,7 @@ import { toast } from 'sonner'
 import { Alert, AlertTitle } from '@/components/ui/alert'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
+import { DataGridColumnHeader } from '@/components/ui/data-grid-column-header'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -62,31 +63,42 @@ function UsersActionsCell({ row }: Props) {
   )
 }
 
-export const usersColumns: ColumnDef<BackendUser>[] = [
+export const usersColumns = (
+  onViewUser: (userId: string) => void,
+): ColumnDef<BackendUser>[] => [
   {
     accessorKey: 'username',
-    header: 'Username',
-    cell: ({ row }) => <div className="font-medium">{row.getValue('username')}</div>,
+    header: ({ column }) => (
+      <DataGridColumnHeader title="Username" column={column} />
+    ),
+    cell: ({ row }) => (
+      <button
+        className="font-medium text-primary hover:underline text-left cursor-pointer"
+        onClick={() => onViewUser(row.original.uuid)}
+      >
+        {row.getValue('username')}
+      </button>
+    ),
   },
   {
     accessorKey: 'email',
-    header: 'Email',
+    header: ({ column }) => <DataGridColumnHeader title="Email" column={column} />,
     cell: ({ row }) => (
       <div className="text-muted-foreground">{row.getValue('email')}</div>
     ),
   },
   {
     accessorKey: 'role.title',
-    header: 'Role',
+    header: ({ column }) => <DataGridColumnHeader title="Role" column={column} />,
     cell: ({ row }) => <Badge variant="outline">{row.original.role?.title ?? '—'}</Badge>,
   },
   {
     accessorKey: 'is_active',
-    header: 'Status',
+    header: ({ column }) => <DataGridColumnHeader title="Status" column={column} />,
     cell: ({ row }) => {
       const isActive = row.getValue<boolean>('is_active')
       return (
-        <Badge variant={isActive ? 'success' : 'destructive'} appearance={"outline"}>
+        <Badge variant={isActive ? 'success' : 'destructive'} appearance={'outline'}>
           {isActive ? 'Active' : 'Inactive'}
         </Badge>
       )
@@ -94,7 +106,9 @@ export const usersColumns: ColumnDef<BackendUser>[] = [
   },
   {
     accessorKey: 'email_verified_at',
-    header: 'Email Verified',
+    header: ({ column }) => (
+      <DataGridColumnHeader title="Email Verified" column={column} />
+    ),
     cell: ({ row }) => (
       <span className="text-sm text-muted-foreground">
         {row.getValue('email_verified_at') ? 'Verified' : 'Not verified'}
@@ -103,7 +117,7 @@ export const usersColumns: ColumnDef<BackendUser>[] = [
   },
   {
     accessorKey: 'created_at',
-    header: 'Created',
+    header: ({ column }) => <DataGridColumnHeader title="Joined At" column={column} />,
     cell: ({ row }) => (
       <span className="text-sm text-muted-foreground">
         {new Date(row.getValue<string>('created_at')).toLocaleDateString()}
@@ -112,7 +126,8 @@ export const usersColumns: ColumnDef<BackendUser>[] = [
   },
   {
     id: 'actions',
-    header: '',
+    accessorKey: 'actions',
+    header: () => null,
     cell: ({ row }) => <UsersActionsCell row={row} />,
     size: 60,
     enableSorting: false,

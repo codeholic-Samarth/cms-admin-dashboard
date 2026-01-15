@@ -34,3 +34,9 @@ export interface BackendUserCreatePayload {
   role_id?: string;
 }
 
+export interface BackendUserUpdatePayload {
+  user_id: string;
+  role_id: string;
+  is_deleted: boolean;
+  is_active: boolean;
+}

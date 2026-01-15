@@ -32,3 +32,22 @@ export const backendUserSchema = z
   });
 
 export type BackendUserFormValues = z.infer<typeof backendUserSchema>;
+
+export const backendUserUpdateSchema = z.object({
+  user_id: z
+    .string()
+    .min(1, 'User ID is required'),
+
+  role_id: z
+    .string()
+    .min(1, 'Role is required')
+    .optional(),
+
+  is_active: z
+    .boolean()
+    .optional(),
+})
+
+export type BackendUserUpdatePayload = z.infer<
+  typeof backendUserUpdateSchema
+>

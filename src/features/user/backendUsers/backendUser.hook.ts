@@ -1,11 +1,12 @@
 // src/hooks/queries/use-backend-users.ts
 
-import { useQuery, keepPreviousData, useMutation } from "@tanstack/react-query";
+import { useQuery, keepPreviousData, useMutation, UseQueryOptions } from "@tanstack/react-query";
 
 import { QUERY_KEYS } from "@/constant/query_keys";
 import { queryClient } from "@/lib/query-client";
 
 import { backendUserService } from "./backendUser.api";
+import { BackendUserUpdatePayload } from "./backendUser.schema";
 import { BackendUser, BackendUserCreatePayload, BackendUserListResponse, UseBackendUsersParams } from "./backendUser.types";
 
 
@@ -27,6 +28,39 @@ export const useCreateBackendUser = () => {
         queryKey: QUERY_KEYS.BACKEND_USER.LIST,
         exact: false,
       });
+    },
+  });
+};
+
+export const useBackendUserById = (
+  userId: string,
+  options?: Omit<
+    UseQueryOptions<BackendUser>,
+    "queryKey" | "queryFn"
+  >
+) => {
+  return useQuery<BackendUser>({
+    queryKey: QUERY_KEYS.BACKEND_USER.DETAIL(userId),
+    queryFn: () => backendUserService.getUserById(userId),
+    enabled: !!userId,
+    ...options,
+  })
+}
+
+export const useUpdateBackendUser = () => {
+  return useMutation<BackendUser, Error, BackendUserUpdatePayload>({
+    mutationFn: (payload) => backendUserService.updateUser(payload),
+
+    onSuccess: (updatedUser) => {
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.BACKEND_USER.LIST,
+        exact: false,
+      });
+
+      queryClient.setQueryData(
+        QUERY_KEYS.BACKEND_USER.DETAIL(updatedUser.uuid),
+        updatedUser
+      );
     },
   });
 };
