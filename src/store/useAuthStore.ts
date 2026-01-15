@@ -1,11 +1,7 @@
-import { create } from "zustand"
-import { persist } from "zustand/middleware"
+import { create } from 'zustand'
+import { persist } from 'zustand/middleware'
 
-import type { AuthUser } from "@/features/auth/login/login.types"
-
-/* ========================================================
- * Auth Store State
- * ======================================================= */
+import type { AuthUser } from '@/features/auth/login/login.types'
 
 type AuthState = {
   accessToken: string | null
@@ -13,18 +9,20 @@ type AuthState = {
   user: AuthUser | null
   isAuthenticated: boolean
 
+  authResolved: boolean
+  hasLoggedIn: boolean
+  authBootstrapped: boolean 
+
   setAuthData: (data: {
     access_token: string
     refresh_token?: string
     user: AuthUser
   }) => void
 
+  setAccessToken: (token: string) => void
   clearAuthData: () => void
+  markAuthResolved: () => void
 }
-
-/* ========================================================
- * Store Implementation
- * ======================================================= */
 
 export const useAuthStore = create<AuthState>()(
   persist(
@@ -34,12 +32,31 @@ export const useAuthStore = create<AuthState>()(
       user: null,
       isAuthenticated: false,
 
+      authResolved: false,
+      hasLoggedIn: false,
+      authBootstrapped: false,
+
       setAuthData: ({ access_token, refresh_token, user }) =>
         set({
           accessToken: access_token,
           refreshToken: refresh_token ?? null,
           user,
           isAuthenticated: true,
+          hasLoggedIn: true,
+          authResolved: true,
+        }),
+
+      setAccessToken: (token) =>
+        set({
+          accessToken: token,
+          isAuthenticated: true,
+          authResolved: true,
+        }),
+
+      markAuthResolved: () =>
+        set({
+          authResolved: true,
+          authBootstrapped: true,
         }),
 
       clearAuthData: () =>
@@ -48,14 +65,13 @@ export const useAuthStore = create<AuthState>()(
           refreshToken: null,
           user: null,
           isAuthenticated: false,
+          authResolved: true,
+          hasLoggedIn: false,
         }),
     }),
     {
       name: "auth-storage",
-
-      // Persist ONLY what is needed for session recovery
       partialize: (state) => ({
-        accessToken: state.accessToken,
         refreshToken: state.refreshToken,
         user: state.user,
       }),

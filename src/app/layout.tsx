@@ -2,7 +2,10 @@ import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 
 import './globals.css'
+import DashboardGuard from '@/components/guard/dashboardGuard'
+import PublicGuard from '@/components/guard/publicGuard'
 import { Toaster } from '@/components/ui/sonner'
+import { AuthBootstrap } from '@/providers/authBoothStrap'
 import { QueryProvider } from '@/providers/queryProvider'
 import { ThemeProvider } from '@/providers/themeProvider'
 
@@ -36,7 +39,11 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <QueryProvider>
-            {children}
+            <AuthBootstrap>
+              <PublicGuard>
+              <DashboardGuard>{children}</DashboardGuard>
+              </PublicGuard>
+            </AuthBootstrap>
             <Toaster position={'top-center'} richColors />
           </QueryProvider>
         </ThemeProvider>

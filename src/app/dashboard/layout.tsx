@@ -4,6 +4,7 @@ import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar"
 
 import { DashboardHeader } from "./_widgets/dashboardHeader"
 
+
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   return (
     <SidebarProvider>
