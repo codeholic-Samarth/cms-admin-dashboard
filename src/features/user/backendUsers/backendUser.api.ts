@@ -1,6 +1,7 @@
 import { axiosFetch } from '@/lib/api/axiosFetch'
 import { API_ENDPOINTS } from '@/lib/api/endpoints'
 
+import { BackendUserUpdatePayload } from './backendUser.schema'
 import {
   BackendUser,
   BackendUserCreatePayload,
@@ -26,6 +27,7 @@ export const backendUserService = {
 
     return response.data
   },
+  
   addUser: async (payload: BackendUserCreatePayload): Promise<BackendUser> => {
     const response = await axiosFetch.post<BackendUser>(
       API_ENDPOINTS.BACKEND_USER.ADD_USER,
@@ -33,5 +35,32 @@ export const backendUserService = {
     )
 
     return response.data
+  },
+
+  getUserById: async (userId: string): Promise<BackendUser> => {
+    if (!userId) {
+      throw new Error('User ID is required')
+    }
+
+    const response = await axiosFetch.get<BackendUser>(
+      API_ENDPOINTS.BACKEND_USER.DETAIL(userId),
+    )
+
+    return response.data
+  },
+
+  updateUser: async (
+    payload: BackendUserUpdatePayload
+  ): Promise<BackendUser> => {
+    if (!payload?.user_id) {
+      throw new Error("User ID is required in payload");
+    }
+
+    const response = await axiosFetch.post<BackendUser>(
+      API_ENDPOINTS.BACKEND_USER.UPDATE_USER,
+      payload
+    );
+
+    return response.data;
   },
 }

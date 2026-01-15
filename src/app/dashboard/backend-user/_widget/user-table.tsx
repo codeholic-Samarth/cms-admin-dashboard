@@ -1,17 +1,16 @@
-"use client"
+'use client'
 
 import {
   getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
   getSortedRowModel,
   PaginationState,
   SortingState,
   useReactTable,
 } from '@tanstack/react-table'
-import { useState } from 'react'
+import { Dispatch, SetStateAction, useState } from 'react'
 
 import { DataGrid, DataGridContainer } from '@/components/ui/data-grid'
+import { DataGridPagination } from '@/components/ui/data-grid-pagination'
 import { DataGridTable } from '@/components/ui/data-grid-table'
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
 import { BackendUser } from '@/features/user/backendUsers/backendUser.types'
@@ -20,21 +19,28 @@ import { usersColumns } from './user-column'
 
 type Props = {
   data: BackendUser[]
+  totalCount: number
+  pagination: PaginationState
+  onPaginationChange: Dispatch<SetStateAction<PaginationState>>
+  isLoading?: boolean
+  onViewUser: (userId: string) => void
 }
 
-const UserTable = ({ data }: Props) => {
-  const [pagination, setPagination] = useState<PaginationState>({
-    pageIndex: 0,
-    pageSize: 5,
-  })
-
+const UserTable = ({
+  data,
+  totalCount,
+  pagination,
+  onPaginationChange,
+  isLoading,
+  onViewUser,
+}: Props) => {
   const [sorting, setSorting] = useState<SortingState>([
     { id: 'username', desc: true },
   ])
 
   const table = useReactTable({
-    data: data ?? [],
-    columns: usersColumns,
+    data,
+    columns: usersColumns(onViewUser),
     getRowId: (row) => row.uuid,
 
     state: {
@@ -42,27 +48,44 @@ const UserTable = ({ data }: Props) => {
       sorting,
     },
 
-    onPaginationChange: setPagination,
-    onSortingChange: setSorting,
+    manualPagination: true,
+    pageCount: Math.ceil(totalCount / pagination.pageSize),
+
+    columnResizeMode: 'onChange',
+
+    onPaginationChange,
+    onSortingChange: (updater) => {
+      setSorting(updater)
+      onPaginationChange((prev) => ({ ...prev, pageIndex: 0 }))
+    },
 
     getCoreRowModel: getCoreRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
   })
 
   return (
     <DataGrid
       table={table}
-      recordCount={data?.length ?? 0}
-      tableLayout={{ width: 'auto' }}
+      recordCount={totalCount}
+      isLoading={isLoading}
+      tableLayout={{
+        width: 'auto',
+        columnsPinnable: true,
+        columnsResizable: true,
+      }}
     >
-      <DataGridContainer>
-        <ScrollArea>
-          <DataGridTable />
-          <ScrollBar orientation="horizontal" />
-        </ScrollArea>
-      </DataGridContainer>
+      <div className="flex flex-col gap-3">
+        <DataGridContainer>
+          <ScrollArea className="w-full overflow-x-auto">
+            <div className="min-w-max">
+              <DataGridTable />
+            </div>
+            <ScrollBar orientation="horizontal" className="mt-2" />
+          </ScrollArea>
+        </DataGridContainer>
+
+        <DataGridPagination />
+      </div>
     </DataGrid>
   )
 }

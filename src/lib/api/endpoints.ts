@@ -40,7 +40,9 @@ export const API_ENDPOINTS = {
   },
   BACKEND_USER: {
     GET_ALL: "/backend-user/get-all",
-    ADD_USER: "/backend-user/register"
+    ADD_USER: "/backend-user/register",
+    DETAIL: (user_id: string) => `/backend-user/get/${user_id}`,
+    UPDATE_USER: "/backend-user/update-user"
     // REGISTER: "/backend-user/register",
     // GET_BY_ID: (userId: string | number) =>
     //   `/backend-user/get/${userId}`,
