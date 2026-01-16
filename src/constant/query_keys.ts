@@ -8,5 +8,9 @@ export const QUERY_KEYS = {
   },
   ROLES: {
     ALL: ["roles", "roles"] as const,
-  }
+  },
+  SUBSCRIPTION: {
+    ROOT: ["subscription"] as const,
+    LIST: ["subscription", "list"] as const,
+  },
 };
