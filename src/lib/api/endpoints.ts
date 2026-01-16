@@ -56,5 +56,8 @@ export const API_ENDPOINTS = {
   },
   ROLES_AND_PERMISSION: {
     GET_ALL_ROLES: "/backend-user/roles"
+  },
+  SUBSCRIPTION: {
+    SUB_LIST: "/backend-user/subscriptions"
   }
 } as const;

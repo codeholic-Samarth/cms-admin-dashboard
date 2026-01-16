@@ -144,8 +144,8 @@ const data = {
       icon: UserCog,
     },
     {
-      name: 'Sales & Marketing',
-      url: '#',
+      name: 'Subscription',
+      url: '/dashboard/subscription',
       icon: PieChart,
     },
     {

@@ -16,4 +16,7 @@ export interface BackendRole {
   permissions: unknown[];
 }
 
-export type BackendRoleListResponse = BackendRole[];
+export interface BackendRoleListResponse {
+  roles: BackendRole[];
+  totat: number;
+} 
