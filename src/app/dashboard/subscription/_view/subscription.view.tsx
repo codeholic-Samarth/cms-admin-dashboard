@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react'
 
-import { Button } from '@/components/ui/button'
 import {
   Select,
   SelectContent,
@@ -15,6 +14,8 @@ import { Currency } from '@/features/subscription/subscription.types'
 
 // eslint-disable-next-line no-restricted-imports
 import SubscriptionTable from '../_widget/subscription.table'
+
+import CreateSubscriptionView from './createSubscription.view'
 
 const SubscriptionView = () => {
   const [currency, setCurrency] = useState<Currency>('INR')
@@ -54,7 +55,7 @@ const SubscriptionView = () => {
             </SelectContent>
           </Select>
 
-          <Button>Add Subscription</Button>
+          <CreateSubscriptionView />
         </div>
       </div>
 

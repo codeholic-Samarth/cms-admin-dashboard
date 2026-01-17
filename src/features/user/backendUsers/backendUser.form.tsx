@@ -130,7 +130,7 @@ const BackendUserForm = ({ className, onClose, ...props }: any) => {
                 </SelectTrigger>
 
                 <SelectContent>
-                  {rolesData?.map((role) => (
+                  {rolesData?.roles.map((role) => (
                     <SelectItem key={role.ruid} value={role.ruid}>
                       {role.title}
                     </SelectItem>

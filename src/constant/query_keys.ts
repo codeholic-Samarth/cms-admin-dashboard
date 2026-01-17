@@ -12,5 +12,6 @@ export const QUERY_KEYS = {
   SUBSCRIPTION: {
     ROOT: ["subscription"] as const,
     LIST: ["subscription", "list"] as const,
+    FEATURES: ["subscription", "features"] as const,
   },
 };

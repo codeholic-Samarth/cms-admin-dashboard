@@ -21,9 +21,10 @@ import { useCopyToClipboard } from '@/hooks/useCopyToClipboard'
 
 type Props = {
   row: Row<BackendUser>
+  onViewUser: (userId: string) => void
 }
 
-function UsersActionsCell({ row }: Props) {
+function UsersActionsCell({ row, onViewUser }: Props) {
   const { copy } = useCopyToClipboard()
 
   const handleCopyId = async () => {
@@ -54,7 +55,7 @@ function UsersActionsCell({ row }: Props) {
       </DropdownMenuTrigger>
 
       <DropdownMenuContent side="bottom" align="end">
-        <DropdownMenuItem>Edit</DropdownMenuItem>
+        <DropdownMenuItem onClick={() => onViewUser(row.original.uuid)}>Edit</DropdownMenuItem>
         <DropdownMenuItem onClick={handleCopyId}>Copy ID</DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem variant="destructive">Delete</DropdownMenuItem>
@@ -128,7 +129,7 @@ export const usersColumns = (
     id: 'actions',
     accessorKey: 'actions',
     header: () => null,
-    cell: ({ row }) => <UsersActionsCell row={row} />,
+    cell: ({ row }) => <UsersActionsCell row={row} onViewUser={onViewUser} />,
     size: 60,
     enableSorting: false,
     enableHiding: false,

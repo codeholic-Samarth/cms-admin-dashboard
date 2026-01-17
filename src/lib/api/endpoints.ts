@@ -58,6 +58,8 @@ export const API_ENDPOINTS = {
     GET_ALL_ROLES: "/backend-user/roles"
   },
   SUBSCRIPTION: {
-    SUB_LIST: "/backend-user/subscriptions"
+    SUB_LIST: "/backend-user/subscriptions",
+    ADD_SUBSCRIPTION: "/backend-user/add-subscription",
+    FEATURES: "/backend-user/features"
   }
 } as const;
