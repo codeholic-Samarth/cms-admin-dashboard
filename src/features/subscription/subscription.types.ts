@@ -86,3 +86,25 @@ export interface SubscriptionFeatureMaster {
 }
 
 export type SubscriptionFeatureListResponse = SubscriptionFeatureMaster[];
+
+export interface UpdateSubscriptionPayload {
+  suid: string;
+  title?: string;
+  description?: string;
+  price_inr?: number;
+  sale_price_inr?: number;
+  price_usd?: number;
+  sale_price_usd?: number;
+  price_pond?: number;
+  sale_price_pond?: number;
+  price_euro?: number;
+  sale_price_euro?: number;
+  validity?: number;
+  is_deleted?: boolean;
+  features?: AddSubscriptionFeature[];
+}
+
+export interface DeactivateSubscriptionParams {
+  suid: string;
+  is_active: boolean;
+}

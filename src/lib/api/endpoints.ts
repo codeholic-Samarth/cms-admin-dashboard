@@ -44,15 +44,6 @@ export const API_ENDPOINTS = {
     ADD_USER: "/backend-user/register",
     DETAIL: (user_id: string) => `/backend-user/get/${user_id}`,
     UPDATE_USER: "/backend-user/update-user",
-    // REGISTER: "/backend-user/register",
-    // GET_BY_ID: (userId: string | number) =>
-    //   `/backend-user/get/${userId}`,
-    // UPDATE: "/backend-user/update-user",
-    // DELETE: (userId: string | number) =>
-    //   `/backend-user/delete/${userId}`,
-    // ROLE: {
-    //   GET_ALL: "/backend-user/roles",
-    // },
   },
   ROLES_AND_PERMISSION: {
     GET_ALL_ROLES: "/backend-user/roles"
@@ -60,6 +51,9 @@ export const API_ENDPOINTS = {
   SUBSCRIPTION: {
     SUB_LIST: "/backend-user/subscriptions",
     ADD_SUBSCRIPTION: "/backend-user/add-subscription",
-    FEATURES: "/backend-user/features"
+    FEATURES: "/backend-user/features",
+    SUB_DETAIL: (suid: string) => `/backend-user/subscriptions/${suid}`,
+    UPDATE_SUB: "/backend-user/update-subscription",
+    DEACTIVATE_SUB: (suid: string) => `/backend-user/deactivate-subscription/${suid}`
   }
 } as const;
