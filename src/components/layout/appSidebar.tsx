@@ -7,10 +7,10 @@ import {
   Command,
   UserCog,
   GalleryVerticalEnd,
-  Map,
   PieChart,
   Settings2,
   SquareTerminal,
+  Users,
 } from 'lucide-react'
 import * as React from 'react'
 
@@ -149,9 +149,9 @@ const data = {
       icon: PieChart,
     },
     {
-      name: 'Travel',
-      url: '#',
-      icon: Map,
+      name: 'Frontend Users',
+      url: '/dashboard/frontend-user',
+      icon: Users,
     },
   ],
 }

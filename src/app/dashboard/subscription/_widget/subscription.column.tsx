@@ -46,7 +46,7 @@ function UsersActionsCell({ row, onViewSub, onEditSub, onToggleSub }: Props) {
       () => (
         <Alert>
           <Check className="h-4 w-4" />
-          <AlertTitle>Employee ID copied: {row.original.suid}</AlertTitle>
+          <AlertTitle>Subscription ID copied: {row.original.suid}</AlertTitle>
         </Alert>
       ),
       { position: 'top-center' },

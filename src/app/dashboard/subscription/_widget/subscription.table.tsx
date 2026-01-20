@@ -14,7 +14,10 @@ import { DataGrid, DataGridContainer } from '@/components/ui/data-grid'
 import { DataGridPagination } from '@/components/ui/data-grid-pagination'
 import { DataGridTable } from '@/components/ui/data-grid-table'
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
-import { Currency, SubscriptionDetailResponse } from '@/features/subscription/subscription.types'
+import {
+  Currency,
+  SubscriptionDetailResponse,
+} from '@/features/subscription/subscription.types'
 
 import { subscriptionColumn } from './subscription.column'
 
@@ -39,15 +42,15 @@ const SubscriptionTable = ({
   currency,
   onViewUser,
   onEditSub,
-  onToggleSub
+  onToggleSub,
 }: Props) => {
   const [sorting, setSorting] = useState<SortingState>([])
   const [expandedRows, setExpandedRows] = useState({})
 
   const columns = useMemo(
-  () => subscriptionColumn(currency, onViewUser, onEditSub, onToggleSub),
-  [currency, onViewUser, onToggleSub, onEditSub]
-)
+    () => subscriptionColumn(currency, onViewUser, onEditSub, onToggleSub),
+    [currency, onViewUser, onToggleSub, onEditSub],
+  )
 
   const table = useReactTable({
     data,
@@ -83,7 +86,7 @@ const SubscriptionTable = ({
       <div className="flex flex-col gap-3">
         <DataGridContainer>
           <ScrollArea className="w-full overflow-x-auto">
-            <div >
+            <div>
               <DataGridTable />
             </div>
             <ScrollBar orientation="horizontal" className="mt-2" />

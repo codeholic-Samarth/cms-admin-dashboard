@@ -55,5 +55,8 @@ export const API_ENDPOINTS = {
     SUB_DETAIL: (suid: string) => `/backend-user/subscriptions/${suid}`,
     UPDATE_SUB: "/backend-user/update-subscription",
     DEACTIVATE_SUB: (suid: string) => `/backend-user/deactivate-subscription/${suid}`
+  },
+  FRONTEND_USER: {
+    GET_ALL: "/backend-user/get-all-frontend-users"
   }
 } as const;
