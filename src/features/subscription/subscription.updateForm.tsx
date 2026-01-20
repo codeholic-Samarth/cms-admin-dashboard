@@ -392,7 +392,7 @@ const SubscriptionUpdateForm = ({ subData, onClose }: Props) => {
           </Button>
         </DrawerClose>
         <Button type="submit" disabled={isPending}>
-          {isPending ? 'Creating...' : 'Create Subscription'}
+          {isPending ? 'Updating...' : 'Update Subscription'}
         </Button>
       </div>
     </form>

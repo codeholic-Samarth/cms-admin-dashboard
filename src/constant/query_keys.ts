@@ -15,4 +15,8 @@ export const QUERY_KEYS = {
     FEATURES: ["subscription", "features"] as const,
     DETAIL: (suid: string) => ["subscription", "detail", suid] as const,
   },
+  FRONTEND_USER: {
+    ROOT: ["frontend-user"] as const,
+    LIST: ["frontend-user", "list"] as const,
+  },
 };

@@ -28,10 +28,10 @@ const SubscriptionUpdateView = ({ open, onOpenChange, suid, onClose }: Props) =>
           <div className="px-5 pt-6">
             <DrawerHeader className="p-0">
               <DrawerTitle className="text-2xl font-bold">
-                Create Subscription
+                Update Subscription
               </DrawerTitle>
               <DrawerDescription className="text-sm text-muted-foreground">
-                Fill in the form below to create a subscription
+                Fill in the form below to update a subscription
               </DrawerDescription>
             </DrawerHeader>
 
