@@ -5,9 +5,11 @@ import { API_ENDPOINTS } from '@/lib/api/endpoints'
 
 import {
   AddSubscriptionPayload,
+  DeactivateSubscriptionParams,
   SubscriptionDetailResponse,
   SubscriptionFeatureListResponse,
   SubscriptionListResponse,
+  UpdateSubscriptionPayload,
   UseSubscriptionListParams,
 } from './subscription.types'
 
@@ -42,6 +44,54 @@ export const subscriptionService = {
   getFeatures: async (): Promise<SubscriptionFeatureListResponse> => {
     const response = await axiosFetch.get<SubscriptionFeatureListResponse>(
       API_ENDPOINTS.SUBSCRIPTION.FEATURES,
+    )
+
+    return response.data
+  },
+
+  getSubscriptionById: async (suid: string): Promise<SubscriptionDetailResponse> => {
+    if (!suid) {
+      throw new Error('Subscription ID (suid) is required')
+    }
+
+    const response = await axiosFetch.get<SubscriptionDetailResponse>(
+      API_ENDPOINTS.SUBSCRIPTION.SUB_DETAIL(suid),
+    )
+
+    return response.data
+  },
+
+  updateSubscription: async (
+    payload: UpdateSubscriptionPayload,
+  ): Promise<SubscriptionDetailResponse> => {
+    if (!payload?.suid) {
+      throw new Error('Subscription ID (suid) is required')
+    }
+
+    const response = await axiosFetch.put<SubscriptionDetailResponse>(
+      API_ENDPOINTS.SUBSCRIPTION.UPDATE_SUB,
+      payload,
+    )
+
+    return response.data
+  },
+
+  deactivateSubscription: async ({
+    suid,
+    is_active,
+  }: DeactivateSubscriptionParams): Promise<SubscriptionDetailResponse> => {
+    if (!suid) {
+      throw new Error('Subscription ID (suid) is required')
+    }
+
+    const response = await axiosFetch.post<SubscriptionDetailResponse>(
+      API_ENDPOINTS.SUBSCRIPTION.DEACTIVATE_SUB(suid),
+      null,
+      {
+        params: {
+          is_active,
+        },
+      },
     )
 
     return response.data

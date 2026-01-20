@@ -25,6 +25,9 @@ type Props = {
   onPaginationChange: React.Dispatch<React.SetStateAction<PaginationState>>
   isLoading?: boolean
   currency: Currency
+  onViewUser: (suid: string) => void
+  onEditSub: (suid: string) => void
+  onToggleSub: (suid: string, isActive: boolean) => void
 }
 
 const SubscriptionTable = ({
@@ -34,13 +37,16 @@ const SubscriptionTable = ({
   onPaginationChange,
   isLoading,
   currency,
+  onViewUser,
+  onEditSub,
+  onToggleSub
 }: Props) => {
   const [sorting, setSorting] = useState<SortingState>([])
   const [expandedRows, setExpandedRows] = useState({})
 
   const columns = useMemo(
-  () => subscriptionColumn(currency),
-  [currency]
+  () => subscriptionColumn(currency, onViewUser, onEditSub, onToggleSub),
+  [currency, onViewUser, onToggleSub, onEditSub]
 )
 
   const table = useReactTable({
