@@ -38,3 +38,9 @@ export interface UseFrontendUsersParams {
   limit?: number;
   offset?: number;
 }
+
+export interface FrontendUserUpdatePayload {
+  user_id: string;
+  is_deleted?: boolean;
+  is_active?: boolean;
+}

@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { FrontendUser } from '@/features/user/frontendUser/frontendUser.type'
+import FrontendUserUpdateForm from '@/features/user/frontendUser/frontendUser.updateForm'
 import { useCopyToClipboard } from '@/hooks/useCopyToClipboard'
 
 type Props = {
@@ -183,9 +184,7 @@ const FrontendUserDetailCard = ({ user, onDelete }: Props) => {
                 - Assign Subscription
                 - Revoke social/storage tokens
             */}
-            <p className="text-sm text-muted-foreground">
-              User configuration actions will appear here.
-            </p>
+            <FrontendUserUpdateForm user={user} />
           </TabsContent>
         </Tabs>
       </CardContent>
