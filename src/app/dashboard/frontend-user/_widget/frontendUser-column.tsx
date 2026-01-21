@@ -57,7 +57,6 @@ function UsersActionsCell({ row, onViewSub }: Props) {
         <DropdownMenuItem onClick={() => onViewSub(row.original.uuid)}>
           View
         </DropdownMenuItem>
-        <DropdownMenuItem>Edit</DropdownMenuItem>
         <DropdownMenuItem onClick={handleCopyId}>Copy ID</DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem

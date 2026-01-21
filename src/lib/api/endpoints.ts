@@ -58,6 +58,7 @@ export const API_ENDPOINTS = {
   },
   FRONTEND_USER: {
     GET_ALL: "/backend-user/get-all-frontend-users",
-    DETAIL: (user_id: string) => `/backend-user/get-frontend-user/${user_id}`
+    DETAIL: (user_id: string) => `/backend-user/get-frontend-user/${user_id}`,
+    UPDATE: "/backend-user/update-frontend-user"
   }
 } as const;

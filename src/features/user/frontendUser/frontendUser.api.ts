@@ -1,7 +1,7 @@
 import { axiosFetch } from "@/lib/api/axiosFetch";
 import { API_ENDPOINTS } from "@/lib/api/endpoints";
 
-import { FrontendUser, FrontendUserListResponse, UseFrontendUsersParams } from "./frontendUser.type";
+import { FrontendUser, FrontendUserListResponse, FrontendUserUpdatePayload, UseFrontendUsersParams } from "./frontendUser.type";
 
 export const frontendUserService = {
   getAllUsers: async (
@@ -29,6 +29,21 @@ export const frontendUserService = {
 
     const response = await axiosFetch.get<FrontendUser>(
       API_ENDPOINTS.FRONTEND_USER.DETAIL(userId)
+    );
+
+    return response.data;
+  },
+
+  updateUser: async (
+    payload: FrontendUserUpdatePayload
+  ): Promise<FrontendUser> => {
+    if (!payload?.user_id) {
+      throw new Error("Frontend user ID is required");
+    }
+
+    const response = await axiosFetch.post<FrontendUser>(
+      API_ENDPOINTS.FRONTEND_USER.UPDATE,
+      payload
     );
 
     return response.data;
