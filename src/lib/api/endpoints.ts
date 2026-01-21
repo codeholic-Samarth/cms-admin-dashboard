@@ -57,6 +57,7 @@ export const API_ENDPOINTS = {
     DEACTIVATE_SUB: (suid: string) => `/backend-user/deactivate-subscription/${suid}`
   },
   FRONTEND_USER: {
-    GET_ALL: "/backend-user/get-all-frontend-users"
+    GET_ALL: "/backend-user/get-all-frontend-users",
+    DETAIL: (user_id: string) => `/backend-user/get-frontend-user/${user_id}`
   }
 } as const;

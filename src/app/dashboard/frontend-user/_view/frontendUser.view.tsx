@@ -7,7 +7,11 @@ import { useFrontendUsers } from '@/features/user/frontendUser/frontendUser.hook
 // eslint-disable-next-line no-restricted-imports
 import FrontendUserTable from '../_widget/frontendUser-table'
 
+import FrontendUserDetailView from './frontendUserDetail.view'
+
 const FrontendUserView = () => {
+  const [viewOpen, setViewOpen] = useState(false)
+  const [selectedUserId, setSelectedUserId] = useState<string | null>(null)
   const [pagination, setPagination] = useState({
     pageIndex: 0,
     pageSize: 10,
@@ -18,8 +22,9 @@ const FrontendUserView = () => {
     offset: pagination.pageIndex * pagination.pageSize,
   })
 
-  const handleViewUser = (suid: string) => {
-    console.log('View user with id:', suid)
+  const handleViewUser = (userId: string) => {
+    setSelectedUserId(userId)
+    setViewOpen(true)
   }
 
   return (
@@ -48,11 +53,11 @@ const FrontendUserView = () => {
         />
       </div>
 
-      {/* <UserDetailView
-        open={open}
-        onOpenChange={setOpen}
+      <FrontendUserDetailView
+        open={viewOpen}
+        onOpenChange={setViewOpen}
         userId={selectedUserId}
-      /> */}
+      />
     </div>
   )
 }

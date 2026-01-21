@@ -1,7 +1,7 @@
 import { axiosFetch } from "@/lib/api/axiosFetch";
 import { API_ENDPOINTS } from "@/lib/api/endpoints";
 
-import { FrontendUserListResponse, UseFrontendUsersParams } from "./frontendUser.type";
+import { FrontendUser, FrontendUserListResponse, UseFrontendUsersParams } from "./frontendUser.type";
 
 export const frontendUserService = {
   getAllUsers: async (
@@ -15,6 +15,20 @@ export const frontendUserService = {
           offset: params.offset ?? 0,
         },
       }
+    );
+
+    return response.data;
+  },
+
+  getUserById: async (
+    userId: string
+  ): Promise<FrontendUser> => {
+    if (!userId) {
+      throw new Error("Frontend user ID is required");
+    }
+
+    const response = await axiosFetch.get<FrontendUser>(
+      API_ENDPOINTS.FRONTEND_USER.DETAIL(userId)
     );
 
     return response.data;
