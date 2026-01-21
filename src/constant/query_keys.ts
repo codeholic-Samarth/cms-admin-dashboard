@@ -18,5 +18,7 @@ export const QUERY_KEYS = {
   FRONTEND_USER: {
     ROOT: ["frontend-user"] as const,
     LIST: ["frontend-user", "list"] as const,
+    DETAIL: (userId: string) =>
+      ["frontend-user", "detail", userId] as const,
   },
 };
