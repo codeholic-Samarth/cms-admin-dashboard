@@ -12,3 +12,4 @@ const ForgotPasswordView = () => {
 }
 
 export default ForgotPasswordView
+
