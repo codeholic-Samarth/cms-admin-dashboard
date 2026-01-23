@@ -1,6 +1,7 @@
 import { axiosFetch } from '@/lib/api/axiosFetch'
 import { API_ENDPOINTS } from '@/lib/api/endpoints'
 
+import { ChangePasswordPayload, ChangePasswordResponse } from './create-password/createPassword.type'
 import {
   ForgotPasswordTokenParams,
   ForgotPasswordTokenResponse,
@@ -24,5 +25,20 @@ export const authService = {
     )
 
     return response.data
+  },
+
+   changePassword: async (
+    payload: ChangePasswordPayload
+  ): Promise<ChangePasswordResponse> => {
+    if (!payload?.token || !payload?.password) {
+      throw new Error("Token and password are required");
+    }
+
+    const response = await axiosFetch.post<ChangePasswordResponse>(
+      API_ENDPOINTS.AUTH.CHANGE_PASSWORD,
+      payload
+    );
+
+    return response.data;
   },
 }

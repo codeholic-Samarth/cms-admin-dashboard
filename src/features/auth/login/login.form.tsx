@@ -2,6 +2,7 @@
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Eye, EyeOff, GalleryVerticalEnd } from 'lucide-react'
+import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -76,9 +77,9 @@ export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) 
           <Field>
             <div className="flex items-center">
               <FieldLabel htmlFor="password">Password</FieldLabel>
-              <a href="#" className="ml-auto text-sm underline-offset-2 hover:underline">
+              <Link href="/forgot-password" className="ml-auto text-sm underline-offset-2 hover:underline">
                 Forgot your password?
-              </a>
+              </Link>
             </div>
             <div className="relative">
               <Input

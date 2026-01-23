@@ -36,7 +36,7 @@ export const API_ENDPOINTS = {
     CREATE_PASSWORD: "/backend-user/create-password",
     PROFILE: "/backend-user/profile",
     UPDATE_PROFILE: "/backend-user/update-profile",
-    CHANGE_PASSWORD: "/backend-user/change-password",
+    CHANGE_PASSWORD: "/backend-user/create-password",
     REFRESH: "/backend-user/refresh"
   },
   BACKEND_USER: {
