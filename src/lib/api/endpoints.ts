@@ -48,7 +48,8 @@ export const API_ENDPOINTS = {
   ROLES_AND_PERMISSION: {
     GET_ALL_ROLES: "/backend-user/roles",
     GET_ALL_PERMISSION: "/backend-user/permissions",
-    ROLE_DETAIL: (ruid: string) => `/backend-user/roles/${ruid}`
+    ROLE_DETAIL: (ruid: string) => `/backend-user/roles/${ruid}`,
+    CREATE_ROLE: "/backend-user/add-role"
   },
   SUBSCRIPTION: {
     SUB_LIST: "/backend-user/subscriptions",
