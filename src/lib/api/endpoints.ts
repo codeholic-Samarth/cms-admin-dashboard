@@ -46,7 +46,9 @@ export const API_ENDPOINTS = {
     UPDATE_USER: "/backend-user/update-user",
   },
   ROLES_AND_PERMISSION: {
-    GET_ALL_ROLES: "/backend-user/roles"
+    GET_ALL_ROLES: "/backend-user/roles",
+    GET_ALL_PERMISSION: "/backend-user/permissions",
+    ROLE_DETAIL: (ruid: string) => `/backend-user/roles/${ruid}`
   },
   SUBSCRIPTION: {
     SUB_LIST: "/backend-user/subscriptions",

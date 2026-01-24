@@ -7,7 +7,11 @@ export const QUERY_KEYS = {
     DETAIL: (id: string | number) => ["backend-user", "detail", id] as const,
   },
   ROLES: {
-    ALL: ["roles", "roles"] as const,
+    ROOT: ["roles-permission"] as const,
+    ALL: ["roles-permission", "roles"] as const,
+    PERMISSIONS: ["roles-permission", "permissions"] as const,
+    ROLE_DETAIL: (ruid: string) =>
+      ["roles-permission", "role", ruid] as const,
   },
   SUBSCRIPTION: {
     ROOT: ["subscription"] as const,
