@@ -22,15 +22,13 @@ const RolesDetailView = ({ open, onOpenChange, ruid }: Props) => {
         isError,
     } = useBackendRoleById(ruid!)
 
-    console.log("RolesDetailView role:", ruid)
-
   return (
     <Drawer direction="right" open={open} onOpenChange={onOpenChange}>
       <DrawerContent className="px-5 data-[vaul-drawer-direction=right]:md:max-w-1/2 data-[vaul-drawer-direction=right]:lg:max-w-1/3 data-[vaul-drawer-direction=right]:xl:max-w-1/4">
         <DrawerHeader className="my-5 p-0">
-          <DrawerTitle className="text-2xl font-bold">User Details</DrawerTitle>
+          <DrawerTitle className="text-2xl font-bold">Roles Details</DrawerTitle>
           <DrawerDescription className="text-muted-foreground text-sm">
-            View and manage user information
+            View and manage roles
           </DrawerDescription>
         </DrawerHeader>
 

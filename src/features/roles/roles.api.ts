@@ -3,7 +3,7 @@
 import { axiosFetch } from "@/lib/api/axiosFetch";
 import { API_ENDPOINTS } from "@/lib/api/endpoints";
 
-import { BackendPermissionListResponse, BackendRole, BackendRoleListResponse, RolesListParams } from "./roles.types";
+import { BackendPermissionListResponse, BackendRole, BackendRoleListResponse, CreateRolePayload, RolesListParams } from "./roles.types";
 
 export const rolesService = {
   getAllRoles: async (
@@ -37,6 +37,21 @@ export const rolesService = {
 
     const response = await axiosFetch.get<BackendRole>(
       API_ENDPOINTS.ROLES_AND_PERMISSION.ROLE_DETAIL(ruid)
+    );
+
+    return response.data;
+  },
+
+  createRole: async (
+    payload: CreateRolePayload
+  ): Promise<BackendRole> => {
+    if (!payload?.title) {
+      throw new Error("Role title is required");
+    }
+
+    const response = await axiosFetch.post<BackendRole>(
+      API_ENDPOINTS.ROLES_AND_PERMISSION.CREATE_ROLE,
+      payload
     );
 
     return response.data;

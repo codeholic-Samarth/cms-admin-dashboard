@@ -35,4 +35,15 @@ export interface BackendPermission {
   }
 }
 
-export type BackendPermissionListResponse = BackendPermission[]
+export interface BackendPermissionforList {
+  permission: string
+  type: number
+  codename: string
+}
+
+export type BackendPermissionListResponse = BackendPermissionforList[]
+
+export interface CreateRolePayload {
+  title: string
+  permissions: string[] // array of permission codenames
+}

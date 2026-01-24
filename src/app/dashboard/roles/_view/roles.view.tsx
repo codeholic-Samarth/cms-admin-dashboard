@@ -2,12 +2,13 @@
 
 "use client"
 
-import React, { useState } from 'react'
+import { useState } from 'react'
 
 import { useBackendRoles } from '@/features/roles/roles.hook'
 
 import RolesTable from '../_widget/roles-table'
 
+import CreateRolesView from './createRole.view'
 import RolesDetailView from './rolesDetail.view'
 
 const RolesView = () => {
@@ -29,7 +30,6 @@ const RolesView = () => {
   }
 
   const handleEditDrawer = (suid: string) => {
-    console.log(suid)
   }
 
   return (
@@ -37,11 +37,13 @@ const RolesView = () => {
       {/* ===== Page Header ===== */}
       <div className="flex items-end justify-between">
         <div>
-          <h1 className="text-2xl font-semibold tracking-tight">Subscriptions</h1>
+          <h1 className="text-2xl font-semibold tracking-tight">Roles and Permission</h1>
           <p className="text-sm text-muted-foreground">
-            Manage subscription plans, pricing, and features.
+            Manage roles and permission .
           </p>
         </div>
+
+        <CreateRolesView />
       </div>
 
       {/* ===== Table ===== */}

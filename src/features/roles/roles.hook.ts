@@ -1,11 +1,12 @@
 // src/hooks/queries/use-backend-roles.ts
 
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import { keepPreviousData, useMutation, useQuery } from "@tanstack/react-query";
 
 import { QUERY_KEYS } from "@/constant/query_keys";
+import { queryClient } from "@/lib/query-client";
 
 import { rolesService } from "./roles.api";
-import { BackendPermissionListResponse, BackendRole, BackendRoleListResponse, RolesListParams } from "./roles.types";
+import { BackendPermissionListResponse, BackendRole, BackendRoleListResponse, CreateRolePayload, RolesListParams } from "./roles.types";
 
 
 export const useBackendRoles = (params: RolesListParams) => {
@@ -29,5 +30,24 @@ export const useBackendRoleById = (ruid: string) => {
     queryKey: QUERY_KEYS.ROLES.ROLE_DETAIL(ruid),
     queryFn: () => rolesService.getRoleById(ruid),
     enabled: !!ruid,
+  });
+};
+
+export const useCreateRole = () => {
+  return useMutation<BackendRole, Error, CreateRolePayload>({
+    mutationFn: (payload) =>
+      rolesService.createRole(payload),
+
+    onSuccess: (createdRole) => {
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.ROLES.ALL,
+        exact: false,
+      });
+
+      queryClient.setQueryData(
+        QUERY_KEYS.ROLES.ROLE_DETAIL(createdRole.ruid),
+        createdRole
+      );
+    },
   });
 };
