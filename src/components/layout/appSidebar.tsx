@@ -153,6 +153,11 @@ const data = {
       url: '/dashboard/frontend-user',
       icon: Users,
     },
+    {
+      name: 'Roles & Permission',
+      url: '/dashboard/roles',
+      icon: Users,
+    },
   ],
 }
 
