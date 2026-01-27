@@ -7,7 +7,12 @@ import { toast } from 'sonner'
 
 import { Button } from '@/components/ui/button'
 import { DrawerClose } from '@/components/ui/drawer'
-import { Field, FieldDescription, FieldGroup, FieldLabel } from '@/components/ui/field'
+import {
+  Field,
+  FieldDescription,
+  FieldGroup,
+  FieldLabel,
+} from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
 import {
   Select,
@@ -17,42 +22,47 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Separator } from '@/components/ui/separator'
-import { useBackendPermissions, useCreateRole } from '@/features/roles/roles.hook'
+import {
+  useBackendPermissions,
+  useUpdateRole,
+} from '@/features/roles/roles.hook'
 import { parseAPIError } from '@/lib/parseApiError'
 
-import { CreateRoleFormValues, createRoleSchema } from './roles.schema'
+import { UpdateRoleFormValues, updateRoleSchema } from './roles.schema'
+import { BackendPermission, BackendRole } from './roles.types'
+
 
 type Props = {
+  role: BackendRole
   Close: () => void
 }
 
-const CreateRoleForm = ({ Close }: Props) => {
+const extractPermissionCodenames = (
+  permissions: BackendPermission[],
+): string[] =>
+  permissions.map((p) => p.permission.codename)
+
+const UpdateRoleForm = ({ role, Close }: Props) => {
   const { data: permissionData } = useBackendPermissions()
-  const { mutateAsync, isPending } = useCreateRole()
+  const { mutateAsync, isPending } = useUpdateRole()
+
   const [selectedPermission, setSelectedPermission] = React.useState('')
 
-//   console.log('permissionData', permissionData)
-
-  const form = useForm<CreateRoleFormValues>({
-    resolver: zodResolver(createRoleSchema),
+  const form = useForm<UpdateRoleFormValues>({
+    resolver: zodResolver(updateRoleSchema),
     defaultValues: {
-      title: '',
-      permissions: [],
+      ruid: role.ruid,
+      title: role.title,
+      permissions: extractPermissionCodenames(role.permissions),
     },
   })
 
   const permissions = form.watch('permissions')
 
-  const onSubmit = async (values: CreateRoleFormValues) => {
-    const payload = {
-      title: values.title,
-      permissions: values.permissions,
-    }
-
-    await mutateAsync(payload, {
+  const onSubmit = async (values: UpdateRoleFormValues) => {
+    await mutateAsync(values, {
       onSuccess: () => {
-        toast.success('Role created successfully')
-        form.reset()
+        toast.success('Role updated successfully')
         Close()
       },
       onError: (err) => {
@@ -62,7 +72,9 @@ const CreateRoleForm = ({ Close }: Props) => {
   }
 
   return (
-    <form className="space-y-8" onSubmit={form.handleSubmit(onSubmit)}>
+    <form className="space-y-8" 
+    onSubmit={form.handleSubmit(onSubmit)}
+    >
       {/* ===============================
        * Basic Information
        * =============================== */}
@@ -75,12 +87,18 @@ const CreateRoleForm = ({ Close }: Props) => {
             <Controller
               control={form.control}
               name="title"
-              render={({ field }) => <Input {...field} id="title" placeholder="Admin" />}
+              render={({ field }) => (
+                <Input {...field} id="title" placeholder="Admin" />
+              )}
             />
-            <FieldDescription>{form.formState.errors.title?.message}</FieldDescription>
+            <FieldDescription>
+              {form.formState.errors.title?.message}
+            </FieldDescription>
           </Field>
         </FieldGroup>
       </div>
+
+      <Separator />
 
       {/* ===============================
        * Permissions
@@ -89,7 +107,7 @@ const CreateRoleForm = ({ Close }: Props) => {
         <div className="space-y-1">
           <h3 className="text-lg font-medium">Permissions</h3>
           <p className="text-sm text-muted-foreground">
-            Select permissions to assign to this role
+            Update permissions assigned to this role
           </p>
         </div>
 
@@ -99,15 +117,11 @@ const CreateRoleForm = ({ Close }: Props) => {
             <Select
               value={selectedPermission}
               onValueChange={(value) => {
-                const alreadyAdded = permissions.includes(value)
-
-                if (!alreadyAdded) {
+                if (!permissions.includes(value)) {
                   form.setValue('permissions', [...permissions, value], {
                     shouldValidate: true,
                   })
                 }
-
-                // reset select (IMPORTANT – same as feature select)
                 setSelectedPermission('')
               }}
             >
@@ -115,28 +129,32 @@ const CreateRoleForm = ({ Close }: Props) => {
                 <SelectValue placeholder="Select permission" />
               </SelectTrigger>
 
-              <SelectContent position="popper" side="bottom" sideOffset={4} align="end">
-                {permissionData?.map((item) => {
-
-                  return (
-                    <SelectItem
-                      key={item.codename}
-                      value={item.codename}
-                      disabled={permissions.includes(item.codename)}
-                    >
-                      {item.permission}
-                    </SelectItem>
-                  )
-                })}
+              <SelectContent
+                position="popper"
+                side="bottom"
+                sideOffset={4}
+                align="end"
+              >
+                {permissionData?.map((item) => (
+                  <SelectItem
+                    key={item.codename}
+                    value={item.codename}
+                    disabled={permissions.includes(item.codename)}
+                  >
+                    {item.permission}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
           </Field>
         </FieldGroup>
 
         {/* Selected Permissions */}
-        <div className="space-y-3 ">
+        <div className="space-y-3">
           {permissions.length === 0 && (
-            <p className="text-sm text-muted-foreground">No permissions added yet</p>
+            <p className="text-sm text-muted-foreground">
+              No permissions added yet
+            </p>
           )}
 
           {permissions.map((codename) => {
@@ -151,7 +169,9 @@ const CreateRoleForm = ({ Close }: Props) => {
               >
                 <div>
                   <p className="font-medium">{meta}</p>
-                  <p className="text-xs text-muted-foreground">{codename}</p>
+                  <p className="text-xs text-muted-foreground">
+                    {codename}
+                  </p>
                 </div>
 
                 <Button
@@ -174,7 +194,9 @@ const CreateRoleForm = ({ Close }: Props) => {
           })}
         </div>
 
-        <FieldDescription>{form.formState.errors.permissions?.message}</FieldDescription>
+        <FieldDescription>
+          {form.formState.errors.permissions?.message}
+        </FieldDescription>
       </div>
 
       <Separator />
@@ -190,11 +212,11 @@ const CreateRoleForm = ({ Close }: Props) => {
         </DrawerClose>
 
         <Button type="submit" disabled={isPending}>
-          {isPending ? 'Creating...' : 'Create Role'}
+          {isPending ? 'Updating...' : 'Update Role'}
         </Button>
       </div>
     </form>
   )
 }
 
-export default CreateRoleForm
+export default UpdateRoleForm
