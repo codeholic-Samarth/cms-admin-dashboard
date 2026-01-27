@@ -31,7 +31,7 @@ export const getImageUrl = (imagePath?: string): string => {
 export const API_ENDPOINTS = {
   AUTH: {
     LOGIN: "/backend-user/login",
-    LOGOUT: "/backend-user/logout-all",
+    LOGOUT: "/backend-user/logout",
     FORGOT_PASSWORD_TOKEN: "/backend-user/send-token",
     CREATE_PASSWORD: "/backend-user/create-password",
     PROFILE: "/backend-user/profile",
