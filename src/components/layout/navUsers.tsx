@@ -8,6 +8,7 @@ import {
   LogOut,
   Sparkles,
 } from "lucide-react"
+import { useRouter } from "next/navigation"
 
 import {
   Avatar,
@@ -40,6 +41,7 @@ export function NavUser({
   }
 }) {
   const { isMobile } = useSidebar()
+  const router = useRouter()
 
   return (
     <SidebarMenu>
@@ -88,7 +90,7 @@ export function NavUser({
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>
+              <DropdownMenuItem onClick={() => router.push('/dashboard/setting?tab=account')}>
                 <BadgeCheck />
                 Account
               </DropdownMenuItem>
