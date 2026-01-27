@@ -1,6 +1,6 @@
 /* eslint-disable no-restricted-imports */
 
-"use client"
+'use client'
 
 import { useState } from 'react'
 
@@ -10,9 +10,12 @@ import RolesTable from '../_widget/roles-table'
 
 import CreateRolesView from './createRole.view'
 import RolesDetailView from './rolesDetail.view'
+import RolesUpdateView from './roleUpdate.view'
 
 const RolesView = () => {
   const [openView, setOpenView] = useState(false)
+  const [openEditDrawer, setOpenEditDrawer] = useState(false)
+  const [selectedEditRubId, setselectedEditRubId] = useState<string | null>(null)
   const [selectedRuId, setselectedRuId] = useState<string | null>(null)
   const [pagination, setPagination] = useState({
     pageIndex: 0,
@@ -29,8 +32,11 @@ const RolesView = () => {
     setOpenView(true)
   }
 
-  const handleEditDrawer = (suid: string) => {
+  const handleEditDrawer = (ruid: string) => {
+    setselectedEditRubId(ruid)
+    setOpenEditDrawer(true)
   }
+
 
   return (
     <div className="flex flex-col gap-6">
@@ -38,9 +44,7 @@ const RolesView = () => {
       <div className="flex items-end justify-between">
         <div>
           <h1 className="text-2xl font-semibold tracking-tight">Roles and Permission</h1>
-          <p className="text-sm text-muted-foreground">
-            Manage roles and permission .
-          </p>
+          <p className="text-sm text-muted-foreground">Manage roles and permission .</p>
         </div>
 
         <CreateRolesView />
@@ -55,14 +59,17 @@ const RolesView = () => {
           onPaginationChange={setPagination}
           isLoading={isLoading}
           onViewRole={handleViewUser}
-          onEditSub={handleEditDrawer}
+          onEditRole={handleEditDrawer}
         />
       </div>
 
-      <RolesDetailView
-        open={openView}
-        onOpenChange={setOpenView}
-        ruid={selectedRuId}
+      <RolesDetailView open={openView} onOpenChange={setOpenView} ruid={selectedRuId} />
+
+      <RolesUpdateView
+        open={openEditDrawer}
+        onOpenChange={setOpenEditDrawer}
+        ruid={selectedEditRubId}
+        onClose={() => setOpenEditDrawer(false)}
       />
     </div>
   )

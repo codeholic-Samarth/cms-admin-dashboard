@@ -45,5 +45,11 @@ export type BackendPermissionListResponse = BackendPermissionforList[]
 
 export interface CreateRolePayload {
   title: string
-  permissions: string[] // array of permission codenames
+  permissions: string[]
+}
+
+export interface UpdateRolePayload {
+  ruid: string;
+  title: string;
+  permissions: string[];
 }

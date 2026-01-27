@@ -6,7 +6,7 @@ import { QUERY_KEYS } from "@/constant/query_keys";
 import { queryClient } from "@/lib/query-client";
 
 import { rolesService } from "./roles.api";
-import { BackendPermissionListResponse, BackendRole, BackendRoleListResponse, CreateRolePayload, RolesListParams } from "./roles.types";
+import { BackendPermissionListResponse, BackendRole, BackendRoleListResponse, CreateRolePayload, RolesListParams, UpdateRolePayload } from "./roles.types";
 
 
 export const useBackendRoles = (params: RolesListParams) => {
@@ -47,6 +47,27 @@ export const useCreateRole = () => {
       queryClient.setQueryData(
         QUERY_KEYS.ROLES.ROLE_DETAIL(createdRole.ruid),
         createdRole
+      );
+    },
+  });
+};
+
+export const useUpdateRole = () => {
+  return useMutation<BackendRole, Error, UpdateRolePayload>({
+    mutationFn: (payload) =>
+      rolesService.updateRole(payload),
+
+    onSuccess: (updatedRole) => {
+      // Invalidate roles list (table, dropdowns, etc.)
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.ROLES.ALL,
+        exact: false,
+      });
+
+      // Sync role detail cache (edit / detail page)
+      queryClient.setQueryData(
+        QUERY_KEYS.ROLES.ROLE_DETAIL(updatedRole.ruid),
+        updatedRole
       );
     },
   });

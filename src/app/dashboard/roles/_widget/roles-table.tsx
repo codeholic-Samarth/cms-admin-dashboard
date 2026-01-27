@@ -23,7 +23,7 @@ type Props = {
   onPaginationChange: React.Dispatch<React.SetStateAction<PaginationState>>
   isLoading?: boolean
   onViewRole: (ruid: string) => void
-  onEditSub: (suid: string) => void
+  onEditRole: (suid: string) => void
 }
 
 const RolesTable = ({
@@ -33,14 +33,14 @@ const RolesTable = ({
   onPaginationChange,
   isLoading,
   onViewRole,
-  onEditSub,
+  onEditRole,
 }: Props) => {
   const [sorting, setSorting] = useState<SortingState>([])
   const [expandedRows, setExpandedRows] = useState({})
 
   const columns = useMemo(
-    () => RolesColumn(onViewRole, onEditSub),
-    [onViewRole, onEditSub],
+    () => RolesColumn(onViewRole, onEditRole),
+    [onViewRole, onEditRole],
   )
 
   const table = useReactTable({
