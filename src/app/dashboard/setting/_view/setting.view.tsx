@@ -8,6 +8,7 @@ import { Separator } from '@/components/ui/separator'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { useAuthProfile } from '@/features/profile/profile.hook'
 
+import { ChangePasswordCard } from '../_widget/generalCard'
 import ProfileDetailCard from '../_widget/profileCard'
 
 type TabKey = 'general' | 'account'
@@ -66,7 +67,7 @@ const SettingsPageView = () => {
 
           <TabsContent value="general" className="pt-4">
             {/* <GeneralSettingsView /> */}
-            hello
+            <ChangePasswordCard />
           </TabsContent>
 
           <TabsContent value="account" className="pt-4">

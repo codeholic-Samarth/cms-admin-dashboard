@@ -2,11 +2,10 @@
 
 import {
   BadgeCheck,
-  Bell,
   ChevronsUpDown,
-  CreditCard,
+  Cog,
+  HelpCircle,
   LogOut,
-  Sparkles,
 } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 
@@ -92,26 +91,21 @@ export function NavUser({
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <Sparkles />
-                Upgrade to Pro
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
-            <DropdownMenuSeparator />
-            <DropdownMenuGroup>
               <DropdownMenuItem
                 onClick={() => router.push('/dashboard/setting?tab=account')}
               >
                 <BadgeCheck />
                 Account
               </DropdownMenuItem>
-              <DropdownMenuItem>
-                <CreditCard />
-                Billing
+              <DropdownMenuItem
+                onClick={() => router.push('/dashboard/setting?tab=general')}
+              >
+                <Cog />
+                Setting
               </DropdownMenuItem>
               <DropdownMenuItem>
-                <Bell />
-                Notifications
+                <HelpCircle />
+                Help & Support
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
