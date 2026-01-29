@@ -9,9 +9,11 @@ type AuthState = {
   user: AuthUser | null
   isAuthenticated: boolean
 
+  isSuperAdmin: boolean
+
   authResolved: boolean
   hasLoggedIn: boolean
-  authBootstrapped: boolean 
+  authBootstrapped: boolean
 
   setAuthData: (data: {
     access_token: string
@@ -32,6 +34,8 @@ export const useAuthStore = create<AuthState>()(
       user: null,
       isAuthenticated: false,
 
+      isSuperAdmin: false,
+
       authResolved: false,
       hasLoggedIn: false,
       authBootstrapped: false,
@@ -41,6 +45,9 @@ export const useAuthStore = create<AuthState>()(
           accessToken: access_token,
           refreshToken: refresh_token ?? null,
           user,
+          isSuperAdmin:
+            user.role?.title?.toLowerCase() === 'super admin' ||
+            user.role?.title?.toLowerCase() === 'superadmin',
           isAuthenticated: true,
           hasLoggedIn: true,
           authResolved: true,
@@ -64,17 +71,18 @@ export const useAuthStore = create<AuthState>()(
           accessToken: null,
           refreshToken: null,
           user: null,
+          isSuperAdmin: false,
           isAuthenticated: false,
           authResolved: true,
           hasLoggedIn: false,
         }),
     }),
     {
-      name: "auth-storage",
+      name: 'auth-storage',
       partialize: (state) => ({
         refreshToken: state.refreshToken,
         user: state.user,
       }),
-    }
-  )
+    },
+  ),
 )

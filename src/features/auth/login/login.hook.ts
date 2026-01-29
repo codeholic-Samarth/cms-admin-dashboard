@@ -1,10 +1,12 @@
-import { useMutation } from "@tanstack/react-query"
+import { useMutation } from '@tanstack/react-query'
 
-import { useAuthStore } from "@/store/useAuthStore"
+import { authService } from '@/features/profile/profile.api'
+import { useAuthStore } from '@/store/useAuthStore'
+import { usePermissionStore } from '@/store/usePermissionStore'
 
-import { authApi } from "./login.api"
-import { LoginFormValues } from "./login.schema"
-import type { LoginRequest, LoginResponse } from "./login.types"
+import { authApi } from './login.api'
+import { LoginFormValues } from './login.schema'
+import type { LoginRequest, LoginResponse } from './login.types'
 
 /* ========================================================
  * Helpers
@@ -15,17 +17,17 @@ import type { LoginRequest, LoginResponse } from "./login.types"
  * This keeps UI clean and centralizes logic
  */
 const getClientDetails = () => {
-  if (typeof window === "undefined") {
+  if (typeof window === 'undefined') {
     return {
-      ip_address: "unknown",
-      browser: "unknown",
-      system: "unknown",
+      ip_address: 'unknown',
+      browser: 'unknown',
+      system: 'unknown',
     }
   }
 
   return {
-    ip_address: "unknown",
-    browser: "",
+    ip_address: 'unknown',
+    browser: '',
     system: navigator.platform,
   }
 }
@@ -36,6 +38,7 @@ const getClientDetails = () => {
 
 export const useLogin = () => {
   const setAuthData = useAuthStore((state) => state.setAuthData)
+  const setPermissions = usePermissionStore((state) => state.setPermissions)
 
   return useMutation<LoginResponse, Error, LoginFormValues>({
     mutationFn: async (formValues) => {
@@ -49,7 +52,7 @@ export const useLogin = () => {
       return authApi.login(payload)
     },
 
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
       const { access_token, refresh_token, user } = data
 
       setAuthData({
@@ -57,6 +60,24 @@ export const useLogin = () => {
         refresh_token,
         user,
       })
+
+      const isSuperAdmin =
+        user.role?.title?.toLowerCase() === 'super admin' ||
+        user.role?.title?.toLowerCase() === 'superadmin'
+
+      if (isSuperAdmin) {
+        // Super admin doesn't need granular permissions
+        setPermissions([])
+        return
+      }
+
+      const permissionResponse = await authService.getUserPermissions(user?.uuid)
+
+      const permissionCodenames = permissionResponse.user_permissions.map(
+        (p) => p.codename,
+      )
+
+      setPermissions(permissionCodenames)
     },
   })
 }
