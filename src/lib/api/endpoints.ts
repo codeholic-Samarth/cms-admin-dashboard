@@ -36,8 +36,9 @@ export const API_ENDPOINTS = {
     CREATE_PASSWORD: "/backend-user/create-password",
     PROFILE: "/backend-user/profile",
     UPDATE_PROFILE: "/backend-user/update-profile",
-    CHANGE_PASSWORD: "/backend-user/create-password",
-    REFRESH: "/backend-user/refresh"
+    CHANGE_PASSWORD: "/backend-user/change-password",
+    REFRESH: "/backend-user/refresh",
+    GET_ALL_PERMISSION: (user_id: string) => `/backend-user/user-permissions/${user_id}`
   },
   BACKEND_USER: {
     GET_ALL: "/backend-user/get-all",

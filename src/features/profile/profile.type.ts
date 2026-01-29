@@ -13,3 +13,22 @@ export interface AuthProfileResponse {
   created_at: string;
   role: AuthProfileRole;
 }
+
+export interface CreatePasswordPayload {
+  old_password: string;
+  new_password: string;
+}
+
+export interface CreatePasswordResponse {
+  message: string;
+}
+
+export interface UserPermission {
+  permission: string;
+  type: number;
+  codename: string;
+}
+
+export interface UserPermissionListResponse {
+  user_permissions: UserPermission[];
+}
