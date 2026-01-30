@@ -10,6 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { BackendUser } from '@/features/user/backendUsers/backendUser.types'
 import BackendUserUpdateForm from '@/features/user/backendUsers/backendUser.updateForm'
 import { useCopyToClipboard } from '@/hooks/useCopyToClipboard'
+import { usePermissions } from '@/lib/csal/usePermission'
 
 type Props = {
   user: BackendUser
@@ -17,6 +18,8 @@ type Props = {
 
 const UserDetailCard = ({ user }: Props) => {
   const { copy, isCopied } = useCopyToClipboard()
+
+  const { canUpdateUser } = usePermissions()
 
   return (
     <Card className="w-full max-w-full mx-auto rounded-2xl shadow-sm py-0">
@@ -59,10 +62,16 @@ const UserDetailCard = ({ user }: Props) => {
 
         {/* ===== Tabs ===== */}
         <Tabs defaultValue="overview" className="w-full">
-          <TabsList className="grid grid-cols-2 w-full">
-            <TabsTrigger value="overview">Overview</TabsTrigger>
-            <TabsTrigger value="settings">Settings</TabsTrigger>
-          </TabsList>
+          {canUpdateUser ? (
+            <TabsList className="grid grid-cols-2 w-full">
+              <TabsTrigger value="overview">Overview</TabsTrigger>
+              <TabsTrigger value="settings">Settings</TabsTrigger>
+            </TabsList>
+          ) : (
+            <TabsList className="grid grid-cols-1 w-full">
+              <TabsTrigger value="overview">Overview</TabsTrigger>
+            </TabsList>
+          )}
 
           {/* ===== Overview Tab ===== */}
           <TabsContent value="overview" className="pt-4 space-y-4">

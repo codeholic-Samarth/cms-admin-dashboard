@@ -1,10 +1,11 @@
+/* eslint-disable no-restricted-imports */
 'use client'
 
 import { useState } from 'react'
 
 import { useBackendUsers } from '@/features/user/backendUsers/backendUser.hook'
+import { usePermissions } from '@/lib/csal/usePermission'
 
-// eslint-disable-next-line no-restricted-imports
 import UserTable from '../_widget/user-table'
 
 import AddUser from './addUser.view'
@@ -19,14 +20,20 @@ const UsersView = () => {
   })
 
   const { data } = useBackendUsers({
-     page: pagination.pageIndex + 1,
+    page: pagination.pageIndex + 1,
     limit: pagination.pageSize,
   })
 
   const handleViewUser = (userId: string) => {
-  setSelectedUserId(userId)
-  setOpen(true)
-}
+    setSelectedUserId(userId)
+    setOpen(true)
+  }
+
+  const {canReadUser, canCreateUser} = usePermissions()
+
+  if (!canReadUser) {
+  return <div>You do not have permission to view users.</div>
+  }
 
   return (
     <div className="flex flex-col gap-6">
@@ -38,12 +45,13 @@ const UsersView = () => {
             Manage users, roles, and account status.
           </p>
         </div>
-
-        <AddUser />
+        {canCreateUser && (
+          <AddUser />
+        )}
       </div>
 
       {/* ===== Table Card ===== */}
-      <div className='w-full'>
+      <div className="w-full">
         <UserTable
           data={data?.users ?? []}
           totalCount={data?.total ?? 0}
@@ -54,11 +62,7 @@ const UsersView = () => {
         />
       </div>
 
-      <UserDetailView
-        open={open}
-        onOpenChange={setOpen}
-        userId={selectedUserId}
-      />
+      <UserDetailView open={open} onOpenChange={setOpen} userId={selectedUserId} />
     </div>
   )
 }
