@@ -13,12 +13,11 @@ import { useCopyToClipboard } from '@/hooks/useCopyToClipboard'
 type Props = {
   user: FrontendUser
   onDelete?: (user: FrontendUser) => void
+  canUpdateUser: boolean
 }
 
-const FrontendUserDetailCard = ({ user, onDelete }: Props) => {
+const FrontendUserDetailCard = ({ user, onDelete, canUpdateUser }: Props) => {
   const { copy, isCopied } = useCopyToClipboard()
-
-
 
   return (
     <Card className="w-full max-w-full mx-auto rounded-2xl shadow-sm py-0">
@@ -41,9 +40,7 @@ const FrontendUserDetailCard = ({ user, onDelete }: Props) => {
               {user.profile_photo ? (
                 <AvatarImage src={user.profile_photo} alt={user.username} />
               ) : (
-                <AvatarFallback>
-                  {user.username.charAt(0).toUpperCase()}
-                </AvatarFallback>
+                <AvatarFallback>{user.username.charAt(0).toUpperCase()}</AvatarFallback>
               )}
             </Avatar>
 
@@ -53,10 +50,10 @@ const FrontendUserDetailCard = ({ user, onDelete }: Props) => {
               </h2>
 
               <div className="flex items-center gap-1">
-              <p className="text-xs text-muted-foreground truncate max-w-[140px] sm:max-w-[240px]">
-                {user.uuid}
-              </p>
-              <Button
+                <p className="text-xs text-muted-foreground truncate max-w-[140px] sm:max-w-[240px]">
+                  {user.uuid}
+                </p>
+                <Button
                   size="icon"
                   variant="ghost"
                   className="h-8 w-8"
@@ -91,10 +88,16 @@ const FrontendUserDetailCard = ({ user, onDelete }: Props) => {
 
         {/* ===== Tabs ===== */}
         <Tabs defaultValue="overview" className="w-full">
-          <TabsList className="grid grid-cols-2 w-full">
-            <TabsTrigger value="overview">Overview</TabsTrigger>
-            <TabsTrigger value="settings">Settings</TabsTrigger>
-          </TabsList>
+          {canUpdateUser ? (
+            <TabsList className="grid grid-cols-2 w-full">
+              <TabsTrigger value="overview">Overview</TabsTrigger>
+              <TabsTrigger value="settings">Settings</TabsTrigger>
+            </TabsList>
+          ) : (
+            <TabsList className="grid grid-cols-1 w-full">
+              <TabsTrigger value="overview">Overview</TabsTrigger>
+            </TabsList>
+          )}
 
           {/* ===== Overview Tab ===== */}
           <TabsContent value="overview" className="pt-4 space-y-4">
@@ -112,9 +115,7 @@ const FrontendUserDetailCard = ({ user, onDelete }: Props) => {
               <div className="space-y-2">
                 <p className="text-muted-foreground">Subscription Plan</p>
                 <p className="font-medium">
-                  {user.subscription?.title
-                    ? `${user.subscription.title}`
-                    : 'N/A'}
+                  {user.subscription?.title ? `${user.subscription.title}` : 'N/A'}
                 </p>
               </div>
 
@@ -148,11 +149,8 @@ const FrontendUserDetailCard = ({ user, onDelete }: Props) => {
 
               <div className="space-y-2">
                 <p className="text-muted-foreground">Email Verified</p>
-                <Badge variant="outline">
-                  {user.email_verified_at ? 'Yes' : 'No'}
-                </Badge>
+                <Badge variant="outline">{user.email_verified_at ? 'Yes' : 'No'}</Badge>
               </div>
-
             </div>
 
             {/* Email */}

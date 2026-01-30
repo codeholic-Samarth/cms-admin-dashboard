@@ -2,18 +2,14 @@
 
 import {
   AudioWaveform,
-  BookOpen,
-  Bot,
   Command,
   UserCog,
   GalleryVerticalEnd,
   PieChart,
-  Settings2,
-  SquareTerminal,
   Users,
+  LucideIcon,
 } from 'lucide-react'
 import * as React from 'react'
-
 
 import {
   Sidebar,
@@ -22,9 +18,22 @@ import {
   SidebarHeader,
   SidebarRail,
 } from '@/components/ui/sidebar'
+import { Actions, Subjects } from '@/lib/csal/csal'
+import { useCan } from '@/lib/csal/useCan'
 
 import { NavProjects } from './navProject'
 import { NavUser } from './navUsers'
+
+
+interface SidebarRoute {
+  name: string;
+  url: string;
+  icon: LucideIcon;
+  permission: {
+    action: Actions;
+    subject: Subjects;
+  };
+}
 
 // This is sample data.
 const data = {
@@ -50,134 +59,59 @@ const data = {
       plan: 'Free',
     },
   ],
-  navMain: [
-    {
-      title: 'Playground',
-      url: '#',
-      icon: SquareTerminal,
-      isActive: true,
-      items: [
-        {
-          title: 'History',
-          url: '#',
-        },
-        {
-          title: 'Starred',
-          url: '#',
-        },
-        {
-          title: 'Settings',
-          url: '#',
-        },
-      ],
-    },
-    {
-      title: 'Models',
-      url: '#',
-      icon: Bot,
-      items: [
-        {
-          title: 'Genesis',
-          url: '#',
-        },
-        {
-          title: 'Explorer',
-          url: '#',
-        },
-        {
-          title: 'Quantum',
-          url: '#',
-        },
-      ],
-    },
-    {
-      title: 'Documentation',
-      url: '#',
-      icon: BookOpen,
-      items: [
-        {
-          title: 'Introduction',
-          url: '#',
-        },
-        {
-          title: 'Get Started',
-          url: '#',
-        },
-        {
-          title: 'Tutorials',
-          url: '#',
-        },
-        {
-          title: 'Changelog',
-          url: '#',
-        },
-      ],
-    },
-    {
-      title: 'Settings',
-      url: '#',
-      icon: Settings2,
-      items: [
-        {
-          title: 'General',
-          url: '#',
-        },
-        {
-          title: 'Team',
-          url: '#',
-        },
-        {
-          title: 'Billing',
-          url: '#',
-        },
-        {
-          title: 'Limits',
-          url: '#',
-        },
-      ],
-    },
-  ],
-  projects: [
-    {
-      name: 'Backend Users',
-      url: '/dashboard/backend-user',
-      icon: UserCog,
-    },
-    {
-      name: 'Subscription',
-      url: '/dashboard/subscription',
-      icon: PieChart,
-    },
-    {
-      name: 'Frontend Users',
-      url: '/dashboard/frontend-user',
-      icon: Users,
-    },
-    {
-      name: 'Roles & Permission',
-      url: '/dashboard/roles',
-      icon: Users,
-    },
-  ],
 }
 
+const projects: SidebarRoute[] = [
+  {
+    name: "Backend Users",
+    url: "/dashboard/backend-user",
+    icon: UserCog,
+    permission: { action: "read", subject: "User" },
+  },
+  {
+    name: "Subscription",
+    url: "/dashboard/subscription",
+    icon: PieChart,
+    permission: { action: "read", subject: "Subscription" },
+  },
+  {
+    name: "Frontend Users",
+    url: "/dashboard/frontend-user",
+    icon: Users,
+    permission: { action: "read", subject: "User" },
+  },
+  {
+    name: "Roles & Permission",
+    url: "/dashboard/roles",
+    icon: Users,
+    permission: { action: "read", subject: "Role" },
+  },
+];
+
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const ability = useCan()
+
+  if (!ability) return null
+
+  const allowedRoutes = projects.filter((route) =>
+    ability.can(route.permission.action, route.permission.subject)
+  )
+
   return (
     <Sidebar collapsible="icon" {...props}>
-      <SidebarHeader >
-        <div className='flex gap-3 py-3'>
-            <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
-                <GalleryVerticalEnd className="size-4" />
-            </div>
-            <div className="grid flex-1 text-left text-sm leading-tight">
-          <span className="truncate font-medium">Codeholic</span>
-          <span className="truncate text-xs">Enterprise</span>
-            </div>
+      <SidebarHeader>
+        <div className="flex gap-3 py-3">
+          <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
+            <GalleryVerticalEnd className="size-4" />
+          </div>
+          <div className="grid flex-1 text-left text-sm leading-tight">
+            <span className="truncate font-medium">Codeholic</span>
+            <span className="truncate text-xs">Enterprise</span>
+          </div>
         </div>
       </SidebarHeader>
       <SidebarContent>
-        {/* <NavMain items={data.navMain} /> */}
-        <NavProjects projects={data.projects} />
+        <NavProjects projects={allowedRoutes} />
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={data.user} />

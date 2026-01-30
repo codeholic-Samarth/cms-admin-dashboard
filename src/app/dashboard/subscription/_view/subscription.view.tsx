@@ -16,6 +16,7 @@ import {
   useSubscriptions,
 } from '@/features/subscription/subscription.hook'
 import { Currency } from '@/features/subscription/subscription.types'
+import { usePermissions } from '@/lib/csal/usePermission'
 import { cn } from '@/lib/utils'
 
 // eslint-disable-next-line no-restricted-imports
@@ -35,6 +36,8 @@ const SubscriptionView = () => {
     suid: string
     isActive: boolean
   } | null>(null)
+
+  const {canReadSubscription, canCreateSubscription, canUpdateSubscription} = usePermissions()
 
   const [currency, setCurrency] = useState<Currency>('INR')
   const [pagination, setPagination] = useState({
@@ -98,6 +101,10 @@ const SubscriptionView = () => {
     )
   }
 
+  if (!canReadSubscription) {
+    return <div>You do not have permission to view subscriptions.</div>
+  }
+
   return (
     <div className="flex flex-col gap-6">
       {/* ===== Page Header ===== */}
@@ -124,7 +131,10 @@ const SubscriptionView = () => {
             </SelectContent>
           </Select>
 
-          <CreateSubscriptionView />
+          {canCreateSubscription && (
+            <CreateSubscriptionView />
+          )}
+
         </div>
       </div>
 
@@ -140,6 +150,7 @@ const SubscriptionView = () => {
           onViewUser={handleViewUser}
           onEditSub={handleEditDrawer}
           onToggleSub={handleToggleSub}
+          canUpdateSubscription={canUpdateSubscription}
         />
       </div>
 

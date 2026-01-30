@@ -1,10 +1,11 @@
+/* eslint-disable no-restricted-imports */
 "use client"
 
 import React, { useState } from 'react'
 
 import { useFrontendUsers } from '@/features/user/frontendUser/frontendUser.hook'
+import { usePermissions } from '@/lib/csal/usePermission'
 
-// eslint-disable-next-line no-restricted-imports
 import FrontendUserTable from '../_widget/frontendUser-table'
 
 import FrontendUserDetailView from './frontendUserDetail.view'
@@ -25,6 +26,12 @@ const FrontendUserView = () => {
   const handleViewUser = (userId: string) => {
     setSelectedUserId(userId)
     setViewOpen(true)
+  }
+
+  const {canReadUser, canUpdateUser} = usePermissions()
+
+  if (!canReadUser) {
+  return <div>You do not have permission to view users.</div>
   }
 
   return (
@@ -57,6 +64,7 @@ const FrontendUserView = () => {
         open={viewOpen}
         onOpenChange={setViewOpen}
         userId={selectedUserId}
+        canUpdateUser={canUpdateUser}
       />
     </div>
   )

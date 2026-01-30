@@ -35,14 +35,12 @@ const getClientDetails = () => {
 /* ========================================================
  * Login Hook
  * ======================================================= */
-
 export const useLogin = () => {
   const setAuthData = useAuthStore((state) => state.setAuthData)
   const setPermissions = usePermissionStore((state) => state.setPermissions)
 
   return useMutation<LoginResponse, Error, LoginFormValues>({
     mutationFn: async (formValues) => {
-      // Map form values → API payload
       const payload: LoginRequest = {
         username_or_email: formValues.username_or_email,
         password: formValues.password,
@@ -66,18 +64,22 @@ export const useLogin = () => {
         user.role?.title?.toLowerCase() === 'superadmin'
 
       if (isSuperAdmin) {
-        // Super admin doesn't need granular permissions
         setPermissions([])
         return
       }
 
-      const permissionResponse = await authService.getUserPermissions(user?.uuid)
+      try {
+        const permissionResponse =
+          await authService.getUserPermissions(user.uuid)
 
-      const permissionCodenames = permissionResponse.user_permissions.map(
-        (p) => p.codename,
-      )
+        const permissionCodenames =
+          permissionResponse.user_permissions.map((p) => p.codename)
 
-      setPermissions(permissionCodenames)
+        setPermissions(permissionCodenames)
+      } catch (error) {
+        setPermissions([])
+        throw error
+      }
     },
   })
 }

@@ -31,6 +31,7 @@ type Props = {
   onViewUser: (suid: string) => void
   onEditSub: (suid: string) => void
   onToggleSub: (suid: string, isActive: boolean) => void
+  canUpdateSubscription: boolean
 }
 
 const SubscriptionTable = ({
@@ -43,13 +44,14 @@ const SubscriptionTable = ({
   onViewUser,
   onEditSub,
   onToggleSub,
+  canUpdateSubscription
 }: Props) => {
   const [sorting, setSorting] = useState<SortingState>([])
   const [expandedRows, setExpandedRows] = useState({})
 
   const columns = useMemo(
-    () => subscriptionColumn(currency, onViewUser, onEditSub, onToggleSub),
-    [currency, onViewUser, onToggleSub, onEditSub],
+    () => subscriptionColumn(currency, onViewUser, onEditSub, onToggleSub, canUpdateSubscription),
+    [currency, onViewUser, onToggleSub, onEditSub, canUpdateSubscription],
   )
 
   const table = useReactTable({

@@ -5,6 +5,7 @@
 import { useState } from 'react'
 
 import { useBackendRoles } from '@/features/roles/roles.hook'
+import { usePermissions } from '@/lib/csal/usePermission'
 
 import RolesTable from '../_widget/roles-table'
 
@@ -37,6 +38,12 @@ const RolesView = () => {
     setOpenEditDrawer(true)
   }
 
+  const {canReadRole, canCreateRole, canUpdateRole} = usePermissions()
+
+  if (!canReadRole) {
+  return <div>You do not have permission to view roles.</div>
+  }
+
 
   return (
     <div className="flex flex-col gap-6">
@@ -46,8 +53,9 @@ const RolesView = () => {
           <h1 className="text-2xl font-semibold tracking-tight">Roles and Permission</h1>
           <p className="text-sm text-muted-foreground">Manage roles and permission .</p>
         </div>
-
-        <CreateRolesView />
+        {canCreateRole && (
+          <CreateRolesView />
+        )}
       </div>
 
       {/* ===== Table ===== */}
@@ -60,6 +68,7 @@ const RolesView = () => {
           isLoading={isLoading}
           onViewRole={handleViewUser}
           onEditRole={handleEditDrawer}
+          canUpdateRole={canUpdateRole}
         />
       </div>
 

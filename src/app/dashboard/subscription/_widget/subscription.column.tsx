@@ -28,9 +28,16 @@ type Props = {
   onViewSub: (usesuidrId: string) => void
   onEditSub: (suid: string) => void
   onToggleSub: (suid: string, isActive: boolean) => void
+  canUpdateSubscription: boolean
 }
 
-function UsersActionsCell({ row, onViewSub, onEditSub, onToggleSub }: Props) {
+function UsersActionsCell({
+  row,
+  onViewSub,
+  onEditSub,
+  onToggleSub,
+  canUpdateSubscription,
+}: Props) {
   const { copy } = useCopyToClipboard()
   const isActive = row.original.is_active
 
@@ -65,9 +72,11 @@ function UsersActionsCell({ row, onViewSub, onEditSub, onToggleSub }: Props) {
         <DropdownMenuItem onClick={() => onViewSub(row.original.suid)}>
           View
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => onEditSub(row.original.suid)}>
-          Edit
-        </DropdownMenuItem>
+        {canUpdateSubscription && (
+          <DropdownMenuItem onClick={() => onEditSub(row.original.suid)}>
+            Edit
+          </DropdownMenuItem>
+        )}
         <DropdownMenuItem onClick={handleCopyId}>Copy ID</DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem
@@ -78,15 +87,7 @@ function UsersActionsCell({ row, onViewSub, onEditSub, onToggleSub }: Props) {
               : 'text-chart-2 focus:text-chart-2'
           }
         >
-          {isActive ? (
-            <>
-              Deactivate
-            </>
-          ) : (
-            <>
-              Activate
-            </>
-          )}
+          {isActive ? <>Deactivate</> : <>Activate</>}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
@@ -98,6 +99,7 @@ export const subscriptionColumn = (
   onViewUser: (suid: string) => void,
   onEditSub: (suid: string) => void,
   onToggleSub: (suid: string, isActive: boolean) => void,
+  canUpdateSubscription: boolean,
 ): ColumnDef<SubscriptionDetailResponse>[] => {
   const { price, sale, symbol } = priceFieldMap[currency]
 
@@ -244,6 +246,7 @@ export const subscriptionColumn = (
           onViewSub={onViewUser}
           onEditSub={onEditSub}
           onToggleSub={onToggleSub}
+          canUpdateSubscription={canUpdateSubscription}
         />
       ),
       size: 60,

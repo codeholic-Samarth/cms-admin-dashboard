@@ -9,9 +9,10 @@ type Props = {
   open: boolean
   onOpenChange: (open: boolean) => void
   userId: string | null
+  canUpdateUser: boolean
 }
 
-const FrontendUserDetailView = ({ open, onOpenChange, userId }: Props) => {
+const FrontendUserDetailView = ({ open, onOpenChange, userId, canUpdateUser }: Props) => {
   const {
     data: user,
     isLoading,
@@ -33,7 +34,7 @@ const FrontendUserDetailView = ({ open, onOpenChange, userId }: Props) => {
         {/* ===== States ===== */}
         {isLoading && <div>Loading user details...</div>}
         {isError && <div>Failed to load user details.</div>}
-        {user && <FrontendUserDetailCard user={user} />}
+        {user && <FrontendUserDetailCard user={user} canUpdateUser={canUpdateUser} />}
       </DrawerContent>
     </Drawer>
   )

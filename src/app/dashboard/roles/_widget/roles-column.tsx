@@ -22,9 +22,10 @@ type Props = {
   row: Row<BackendRole>
   onViewRole: (ruid: string) => void
   onEditRole: (ruid: string) => void
+  canUpdateRole: boolean
 }
 
-function UsersActionsCell({ row, onViewRole, onEditRole }: Props) {
+function UsersActionsCell({ row, onViewRole, onEditRole, canUpdateRole }: Props) {
   const { copy } = useCopyToClipboard()
 
   const handleCopyId = async () => {
@@ -58,9 +59,11 @@ function UsersActionsCell({ row, onViewRole, onEditRole }: Props) {
         <DropdownMenuItem onClick={() => onViewRole(row.original.ruid)}>
           View
         </DropdownMenuItem>
+        {canUpdateRole && (
         <DropdownMenuItem onClick={() => onEditRole(row.original.ruid)}>
           Edit
         </DropdownMenuItem>
+        )}
         <DropdownMenuItem onClick={handleCopyId}>Copy ID</DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem>Delete</DropdownMenuItem>
@@ -72,6 +75,7 @@ function UsersActionsCell({ row, onViewRole, onEditRole }: Props) {
 export const RolesColumn = (
   onViewRole: (ruid: string) => void,
   onEditRole: (ruid: string) => void,
+  canUpdateRole: boolean,
 ): ColumnDef<BackendRole>[] => {
   return [
     {
@@ -161,7 +165,7 @@ export const RolesColumn = (
       accessorKey: 'actions',
       header: () => null,
       cell: ({ row }) => (
-        <UsersActionsCell row={row} onViewRole={onViewRole} onEditRole={onEditRole} />
+        <UsersActionsCell row={row} onViewRole={onViewRole} onEditRole={onEditRole} canUpdateRole={canUpdateRole} />
       ),
       size: 60,
       enableSorting: false,

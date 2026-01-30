@@ -24,6 +24,7 @@ type Props = {
   isLoading?: boolean
   onViewRole: (ruid: string) => void
   onEditRole: (suid: string) => void
+  canUpdateRole: boolean
 }
 
 const RolesTable = ({
@@ -34,13 +35,14 @@ const RolesTable = ({
   isLoading,
   onViewRole,
   onEditRole,
+  canUpdateRole
 }: Props) => {
   const [sorting, setSorting] = useState<SortingState>([])
   const [expandedRows, setExpandedRows] = useState({})
 
   const columns = useMemo(
-    () => RolesColumn(onViewRole, onEditRole),
-    [onViewRole, onEditRole],
+    () => RolesColumn(onViewRole, onEditRole, canUpdateRole),
+    [onViewRole, onEditRole, canUpdateRole],
   )
 
   const table = useReactTable({
