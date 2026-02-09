@@ -34,5 +34,7 @@ export const QUERY_KEYS = {
   TAX: {
     ROOT: ["tax"] as const,
     LIST: ["tax", "list"] as const,
+    DETAIL: (taxId: string) =>
+      ["tax", "detail", taxId] as const,
   },
 };

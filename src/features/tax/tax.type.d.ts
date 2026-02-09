@@ -23,3 +23,33 @@ export interface UseTaxModelsParams {
   limit?: number
   offset?: number
 }
+
+export interface TaxRegion {
+  txruid: string
+  country: string
+  state: string
+}
+
+export interface TaxField {
+  txfuid: string
+  title: string
+  value: number
+  value_type: number
+}
+
+export interface TaxModelDetail {
+  taxuid: string
+  title: string
+  creator: {
+    uuid: string
+    username: string
+    email: string
+  }
+  is_active: boolean
+  is_deleted: boolean
+  regions: TaxRegion[]
+  fields: TaxField[]
+  created_at: string
+  updated_at: string
+}
+

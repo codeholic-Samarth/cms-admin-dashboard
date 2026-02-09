@@ -1,6 +1,6 @@
 /* eslint-disable no-restricted-imports */
 
-"use client"
+'use client'
 
 import React, { useState } from 'react'
 
@@ -8,7 +8,11 @@ import { useTaxModels } from '@/features/tax/tax.hook'
 
 import TaxTable from '../_widget/tax-table'
 
+import TaxDetailView from './taxDetail.view'
+
 const TaxView = () => {
+  const [viewOpen, setViewOpen] = useState(false)
+  const [selectedTaxId, setSelectedTaxId] = useState<string | null>(null)
   const [pagination, setPagination] = useState({
     pageIndex: 0,
     pageSize: 10,
@@ -19,8 +23,9 @@ const TaxView = () => {
     offset: pagination.pageIndex * pagination.pageSize,
   })
 
-  const handleViewUser = (userId: string) => {
-    // todo
+  const handleViewUser = (tax_id: string) => {
+    setSelectedTaxId(tax_id)
+    setViewOpen(true)
   }
 
   return (
@@ -48,6 +53,8 @@ const TaxView = () => {
           onViewTax={handleViewUser}
         />
       </div>
+
+      <TaxDetailView open={viewOpen} onOpenChange={setViewOpen} tax_id={selectedTaxId} />
     </div>
   )
 }
