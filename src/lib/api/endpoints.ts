@@ -68,6 +68,7 @@ export const API_ENDPOINTS = {
   },
   TAX: {
     GET_ALL: "/backend-user/get-tax-models",
-    DETAIL: (tax_id: string) => `/backend-user/get-tax-model/${tax_id}`
+    DETAIL: (tax_id: string) => `/backend-user/get-tax-model/${tax_id}`,
+    CREATE_TAX_MODAL: "/backend-user/add-tax-model"
   }
 } as const;

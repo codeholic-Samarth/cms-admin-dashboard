@@ -9,10 +9,10 @@ import { rolesService } from "./roles.api";
 import { BackendPermissionListResponse, BackendRole, BackendRoleListResponse, CreateRolePayload, RolesListParams, UpdateRolePayload } from "./roles.types";
 
 
-export const useBackendRoles = (params: RolesListParams) => {
+export const useBackendRoles = (params?: RolesListParams) => {
   return useQuery<BackendRoleListResponse>({
     queryKey: QUERY_KEYS.ROLES.ALL,
-    queryFn: () => rolesService.getAllRoles(params),
+    queryFn: () => rolesService.getAllRoles(params || {}),
     placeholderData: keepPreviousData,
   });
 };
