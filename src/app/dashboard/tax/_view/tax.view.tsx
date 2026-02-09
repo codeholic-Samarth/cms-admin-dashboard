@@ -1,0 +1,55 @@
+/* eslint-disable no-restricted-imports */
+
+"use client"
+
+import React, { useState } from 'react'
+
+import { useTaxModels } from '@/features/tax/tax.hook'
+
+import TaxTable from '../_widget/tax-table'
+
+const TaxView = () => {
+  const [pagination, setPagination] = useState({
+    pageIndex: 0,
+    pageSize: 10,
+  })
+
+  const { data, isLoading } = useTaxModels({
+    limit: pagination.pageSize,
+    offset: pagination.pageIndex * pagination.pageSize,
+  })
+
+  const handleViewUser = (userId: string) => {
+    // todo
+  }
+
+  return (
+    <div className="flex flex-col gap-6">
+      {/* ===== Page Header ===== */}
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-2xl font-semibold tracking-tight">Tax Management</h1>
+          <p className="text-sm text-muted-foreground">
+            Manage Tax Model, tax field, and tax region.
+          </p>
+        </div>
+
+        {/* <AddUser /> */}
+      </div>
+
+      {/* ===== Table Card ===== */}
+      <div className="w-full">
+        <TaxTable
+          data={data?.tax_models ?? []}
+          totalCount={data?.total ?? 0}
+          pagination={pagination}
+          onPaginationChange={setPagination}
+          isLoading={isLoading}
+          onViewTax={handleViewUser}
+        />
+      </div>
+    </div>
+  )
+}
+
+export default TaxView
