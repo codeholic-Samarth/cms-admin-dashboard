@@ -1,7 +1,7 @@
 import { axiosFetch } from '@/lib/api/axiosFetch'
 import { API_ENDPOINTS } from '@/lib/api/endpoints'
 
-import { TaxModelListResponse, UseTaxModelsParams } from './tax.type'
+import { TaxModelDetail, TaxModelListResponse, UseTaxModelsParams } from './tax.type'
 
 export const taxService = {
   getAll: async (
@@ -15,6 +15,18 @@ export const taxService = {
           offset: params.offset ?? 0,
         },
       }
+    )
+
+    return response.data
+  },
+
+  getById: async (taxId: string): Promise<TaxModelDetail> => {
+    if (!taxId) {
+      throw new Error("Tax ID is required")
+    }
+
+    const response = await axiosFetch.get<TaxModelDetail>(
+      API_ENDPOINTS.TAX.DETAIL(taxId)
     )
 
     return response.data

@@ -44,8 +44,6 @@ const FrontendUserView = () => {
             Manage users, roles, and account status.
           </p>
         </div>
-
-        {/* <AddUser /> */}
       </div>
 
       {/* ===== Table Card ===== */}
