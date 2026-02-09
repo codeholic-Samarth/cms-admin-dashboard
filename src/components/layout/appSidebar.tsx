@@ -86,6 +86,12 @@ const projects: SidebarRoute[] = [
     icon: Users,
     permission: { action: "read", subject: "Role" },
   },
+  {
+    name: "Tax Management",
+    url: "/dashboard/tax",
+    icon: Users,
+    permission: { action: "read", subject: "Role" },
+  },
 ];
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {

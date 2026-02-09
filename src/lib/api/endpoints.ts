@@ -65,5 +65,8 @@ export const API_ENDPOINTS = {
     GET_ALL: "/backend-user/get-all-frontend-users",
     DETAIL: (user_id: string) => `/backend-user/get-frontend-user/${user_id}`,
     UPDATE: "/backend-user/update-frontend-user"
+  },
+  TAX: {
+    GET_ALL: "/backend-user/get-tax-models"
   }
 } as const;

@@ -31,4 +31,8 @@ export const QUERY_KEYS = {
     USER_PERMISSIONS: (userId: string) =>
       ["auth", "permissions", userId] as const,
   },
+  TAX: {
+    ROOT: ["tax"] as const,
+    LIST: ["tax", "list"] as const,
+  },
 };
