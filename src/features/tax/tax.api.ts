@@ -1,12 +1,10 @@
 import { axiosFetch } from '@/lib/api/axiosFetch'
 import { API_ENDPOINTS } from '@/lib/api/endpoints'
 
-import { TaxModelDetail, TaxModelListResponse, UseTaxModelsParams } from './tax.type'
+import { CreateTaxModelPayload, TaxModelDetail, TaxModelListResponse, UseTaxModelsParams } from './tax.type'
 
 export const taxService = {
-  getAll: async (
-    params: UseTaxModelsParams
-  ): Promise<TaxModelListResponse> => {
+  getAll: async (params: UseTaxModelsParams): Promise<TaxModelListResponse> => {
     const response = await axiosFetch.get<TaxModelListResponse>(
       API_ENDPOINTS.TAX.GET_ALL,
       {
@@ -14,7 +12,7 @@ export const taxService = {
           limit: params.limit ?? 10,
           offset: params.offset ?? 0,
         },
-      }
+      },
     )
 
     return response.data
@@ -22,11 +20,22 @@ export const taxService = {
 
   getById: async (taxId: string): Promise<TaxModelDetail> => {
     if (!taxId) {
-      throw new Error("Tax ID is required")
+      throw new Error('Tax ID is required')
     }
 
-    const response = await axiosFetch.get<TaxModelDetail>(
-      API_ENDPOINTS.TAX.DETAIL(taxId)
+    const response = await axiosFetch.get<TaxModelDetail>(API_ENDPOINTS.TAX.DETAIL(taxId))
+
+    return response.data
+  },
+
+  create: async (payload: CreateTaxModelPayload): Promise<TaxModelDetail> => {
+    if (!payload?.title) {
+      throw new Error('Tax model title is required')
+    }
+
+    const response = await axiosFetch.post<TaxModelDetail>(
+      API_ENDPOINTS.TAX.CREATE_TAX_MODAL,
+      payload,
     )
 
     return response.data

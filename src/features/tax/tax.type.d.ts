@@ -53,3 +53,19 @@ export interface TaxModelDetail {
   updated_at: string
 }
 
+export interface CreateTaxRegionPayload {
+  country: string
+  state: string
+}
+
+export interface CreateTaxFieldPayload {
+  title: string
+  value: number
+  value_type: number
+}
+
+export interface CreateTaxModelPayload {
+  title: string
+  regions: CreateTaxRegionPayload[]
+  fields: CreateTaxFieldPayload[]
+}

@@ -8,6 +8,7 @@ import { useTaxModels } from '@/features/tax/tax.hook'
 
 import TaxTable from '../_widget/tax-table'
 
+import AddTaxModalView from './addTaxModal.view'
 import TaxDetailView from './taxDetail.view'
 
 const TaxView = () => {
@@ -39,7 +40,7 @@ const TaxView = () => {
           </p>
         </div>
 
-        {/* <AddUser /> */}
+        <AddTaxModalView />
       </div>
 
       {/* ===== Table Card ===== */}
