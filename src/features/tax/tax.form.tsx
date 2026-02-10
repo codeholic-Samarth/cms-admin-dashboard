@@ -25,8 +25,8 @@ type Props = {
 }
 
 const TAX_VALUE_TYPES = [
-  { label: 'Percentage', value: 1 },
-  { label: 'Flat Amount', value: 2 },
+  { label: 'Percentage', value: 0 },
+  { label: 'Flat Amount', value: 1 },
 ]
 
 export function TaxCreateForm({ onClose }: Props) {
@@ -91,7 +91,7 @@ const onSubmit = async (data: TaxCreateFormValues) => {
   return (
     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
       {/* ===== Basic Information ===== */}
-      <div className="space-y-4">
+      <div className="space-y-4 h-full">
         <h3 className="text-lg font-medium">Basic Information</h3>
 
         <FieldGroup>

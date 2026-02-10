@@ -5,9 +5,12 @@ import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
+import { Separator } from '@/components/ui/separator'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { TaxModelDetail } from '@/features/tax/tax.type'
 import { useCopyToClipboard } from '@/hooks/useCopyToClipboard'
+
+import TaxSetting from './taxSetting'
 
 type Props = {
   tax: TaxModelDetail
@@ -19,9 +22,9 @@ const TaxModalDetailCard = ({ tax, onDelete }: Props) => {
 
   return (
     <Card className="w-full max-w-full mx-auto rounded-2xl shadow-sm py-0">
-      <CardContent className="p-6 space-y-6">
+      <CardContent className="py-6 px-0 h-[70%]">
         {/* ===== Header ===== */}
-        <div className="relative">
+        <div className="relative px-5">
           {onDelete && (
             <Button
               appearance="ghost"
@@ -80,21 +83,27 @@ const TaxModalDetailCard = ({ tax, onDelete }: Props) => {
         </div>
 
         {/* ===== Tabs ===== */}
-        <Tabs defaultValue="overview" className="w-full">
+        <Tabs defaultValue="overview" className="w-full h-full">
+
+          <div className='px-5 mt-5'>
           <TabsList className="grid grid-cols-3 w-full">
             <TabsTrigger value="overview">Overview</TabsTrigger> 
             <TabsTrigger value="fields">Fields</TabsTrigger>
+            <TabsTrigger value="setting">Setting</TabsTrigger>
           </TabsList>
+          </div>
 
           {/* ===== Overview ===== */}
-          <TabsContent value="overview" className="pt-4 space-y-4">
+          <TabsContent value="overview" className="pt-4 space-y-4 px-5">
             <div className="grid grid-cols-2 gap-y-8 text-sm">
               <div className="space-y-2">
                 <p className="text-muted-foreground">Created By</p>
+                <div>
                 <p className="font-medium truncate">{tax.creator.username}</p>
                 <p className="text-xs text-muted-foreground truncate">
                   {tax.creator.email}
                 </p>
+                </div>
               </div>
 
               <div className="space-y-2">
@@ -116,7 +125,14 @@ const TaxModalDetailCard = ({ tax, onDelete }: Props) => {
                 </p>
               </div>
             </div>
+            
+                <Separator />
 
+            <div className='space-y-4'>
+              <div className='space-y-1'>
+                <h3 className='text-md font-medium'>Regions</h3>
+                <p className='text-sm text-muted-foreground'>These are the selected regions where this tax modal get applied.</p>
+              </div>
             {tax.regions.length === 0 ? (
               <p className="text-sm text-muted-foreground">No regions assigned</p>
             ) : (
@@ -137,10 +153,11 @@ const TaxModalDetailCard = ({ tax, onDelete }: Props) => {
                 ))}
               </div>
             )}
+            </div>
           </TabsContent>
 
           {/* ===== Fields ===== */}
-          <TabsContent value="fields" className="pt-4 space-y-3">
+          <TabsContent value="fields" className="pt-4 space-y-3 px-5">
             {tax.fields.length === 0 ? (
               <p className="text-sm text-muted-foreground">No tax fields defined</p>
             ) : (
@@ -162,6 +179,12 @@ const TaxModalDetailCard = ({ tax, onDelete }: Props) => {
               </div>
             )}
           </TabsContent>
+
+            {/* ======= Setting ======== */}
+          <TabsContent value="setting" className="pt-4 flex-1 overflow-y-auto">
+            <TaxSetting taxId={tax.taxuid} />
+          </TabsContent>
+
         </Tabs>
       </CardContent>
     </Card>
