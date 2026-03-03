@@ -1,3 +1,5 @@
+"use client"
+
 /* eslint-disable no-restricted-imports */
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Eye, EyeOff, GalleryVerticalEnd } from 'lucide-react'

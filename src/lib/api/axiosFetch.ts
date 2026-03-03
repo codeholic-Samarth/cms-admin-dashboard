@@ -29,7 +29,7 @@ declare module "axios" {
 // Main API client (used everywhere)
 export const axiosFetch: AxiosInstance = axios.create({
   // baseURL: BASE_URL,
-  baseURL: "http://127.0.0.1:8000/",
+  baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
 })
 
 // Raw client (used ONLY for refresh, no interceptors)

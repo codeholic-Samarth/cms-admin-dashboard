@@ -1,18 +1,13 @@
-"use client"
-
-import { useSearchParams } from "next/navigation"
-
 import CreatePasswordView from "./_view/createPassword.view"
 
-
 type CreatePasswordPageProps = {
-  searchParams: {
+  searchParams?: {
     token?: string
   }
 }
 
 const CreatePasswordPage = ({ searchParams }: CreatePasswordPageProps) => {
-  const token = useSearchParams().get("token") || null
+  const token = searchParams?.token || null
 
   if (!token) {
     return (
