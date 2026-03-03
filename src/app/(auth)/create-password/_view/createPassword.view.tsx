@@ -1,3 +1,5 @@
+"use client"
+
 import { CreatePasswordForm } from "@/features/auth/create-password/createPassword.fornt"
 
 
